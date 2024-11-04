@@ -1,0 +1,9 @@
+@import '../../../utils/variables.scss';
+
+.eventTitleBlock {
+  font-family: $fontPodkova;
+  font-size: 30px;
+  text-align: center;
+  color: $color-black;
+  margin-block-end: 15px;
+}

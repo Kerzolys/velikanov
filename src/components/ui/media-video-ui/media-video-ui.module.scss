@@ -1,0 +1,7 @@
+.mediaVideoBlock {
+  box-shadow: 0 4px 50px 10px #000;
+  transition: transform 0.3s ease-in-out;
+  &:hover {
+    transform: scale(1.1);
+  }
+}

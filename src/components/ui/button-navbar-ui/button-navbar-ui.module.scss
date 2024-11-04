@@ -1,0 +1,42 @@
+
+@import '../../../utils//variables.scss';
+
+.button {
+  position: relative;
+  border-radius: 10px;
+  padding-block: 4px 6px;
+  font-family: $fontArtifika;
+  font-size: $font-small-size;
+  background-color: transparent;
+  inline-size: 120px;
+  max-block-size: 30px;
+  z-index: 10;
+  overflow: hidden;
+  &::before {
+    position: absolute;
+    content: '';
+    top: 0;
+    left: 0;
+    inline-size: 100%;
+    block-size: 100%;
+    background-image: linear-gradient(to right, $color-light, $color-green-dark);
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    z-index: -1;
+  }
+  &:hover::before {
+    opacity: 1;
+  }
+  &:focus {
+    outline: none;
+  }
+  &:focus-visible {
+    border: 1px solid $color-green-dark;
+    background-image: linear-gradient(to right, $color-light, $color-green-dark);
+
+  }
+  &_active {
+    background-image: linear-gradient(to right, $color-light, $color-green-dark);
+  }
+} 
+

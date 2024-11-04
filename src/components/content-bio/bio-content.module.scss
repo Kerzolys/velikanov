@@ -1,0 +1,10 @@
+@import '../../utils/variables.scss';
+
+.bio {
+  padding: 50px 25px 80px;
+  font-family: $fontPodkova;
+  font-size: $font-text-size;
+  & p:not(:last-child) {
+    margin-block-end: 15px;   
+  }
+}

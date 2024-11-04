@@ -1,0 +1,12 @@
+@import '../../../utils/variables.scss';
+
+.eventInfoBlock {
+  font-family: $fontPodkova;
+  font-size: $font-text-size;
+  text-align: center;
+  color: $color-black;
+  margin-block: 15px;
+  &__soloist  {
+    margin-block-start: 10px;
+  }
+}

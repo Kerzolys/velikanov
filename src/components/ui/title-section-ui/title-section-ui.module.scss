@@ -1,0 +1,12 @@
+@import '../../../utils/variables.scss';
+
+.titleSection {
+  font-family: $fontArtifika;
+  font-size: $font-section-size;
+  text-align: center;
+  color: $color-black;
+  margin-block-end: 50px;
+  &_dark {
+    color: $color-white;
+  }
+}

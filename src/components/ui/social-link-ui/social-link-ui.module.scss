@@ -1,0 +1,22 @@
+@import '../../../utils/variables.scss';
+
+.icon__container {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #000;
+  border-radius: 50%;
+  transition: transform 0.3s ease-in-out, background-color 0.2s ease-in-out;
+  inline-size: 53px;
+  block-size: 53px;
+  &:focus-visible {
+    border: 1px solid $color-dark;
+    transform: scale(1.2);
+  }
+  &:hover {
+    transform: scale(1.2);
+  }
+  &_dark:focus-visible  {
+    border: 1px solid $color-light;
+  }
+}
