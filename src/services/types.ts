@@ -11,3 +11,9 @@ export type TVideo = {
   title: string;
   url: string;
 };
+
+export type TImage = {
+  link: string;
+  title: string;
+  id?: string;
+};

@@ -1,14 +1,26 @@
+@import '../../utils/variables.scss';
+
 .coverSection {
-  margin: 0 auto;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  max-block-size: 500px;
-  padding-block: 20px;
-  & img {
-    box-shadow: 0 4px 50px 10px #2a2a2a;
-    height: auto;
-    max-height: 400px;
-    object-fit: cover;
+  justify-content: start;
+  align-items: end;
+  margin: 0 auto;
+  padding-inline-start: 110px;
+  background: linear-gradient(to right, #666 0%, #050400 28%);
+  background-image: url('../../utils/coverPhotos/home-Photoroom.png'), linear-gradient(to right, #666 0%, #050400 28%);
+  background-repeat: no-repeat;
+  background-position: right bottom;
+  background-size: contain;
+  block-size: 836px;
+  max-block-size: 836px;
+
+  & h1 {
+    color: $color-light;
+    font-family: $fontGeneral;
+    font-size: $font-subtitle-size;
+  }
+
+  & h1 span {
+    font-size: $font-main-size;
   }
 }

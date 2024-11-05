@@ -1,0 +1,22 @@
+.sliderImage {
+  max-inline-size: 100%;
+  aspect-ratio: 16/9;
+  cursor: pointer;
+  
+  &_active  {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    display: block;
+    height: auto;
+    max-height: 450px;
+    object-fit: cover;
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
+  }
+  &_closed {
+    visibility: hidden;
+    opacity: 0;
+  }
+}
