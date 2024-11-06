@@ -13,14 +13,35 @@
   background-size: contain;
   block-size: 836px;
   max-block-size: 836px;
-
   & h1 {
     color: $color-light;
     font-family: $fontGeneral;
     font-size: $font-subtitle-size;
+    text-shadow: 4px 2px 0 rgba(0, 0, 0, 0.5);
   }
 
   & h1 span {
     font-size: $font-main-size;
+  }
+  @media (max-width: 1140px) {
+    align-items: center;
+    block-size: 625px;
+    padding-inline-start: 25px;
+
+    & h1 span {
+      font-size: 60px;
+    }
+  }
+  @media (max-width: 768px) {
+    padding-block-start: 25px;
+    padding-inline-start: 25px;
+
+    justify-content: flex-start;
+    align-items: start;
+    block-size: 400px;
+    background-image: url('../../utils/coverPhotos/home-Photoroom.png'), linear-gradient(to right, #666 0%, #050400 18%);
+    & h1 span {
+      font-size: 50px;
+    }
   }
 }

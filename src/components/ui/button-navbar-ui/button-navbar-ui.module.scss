@@ -12,15 +12,14 @@
   background-color: transparent;
   inline-size: 120px;
   max-block-size: 30px;
-
-
   &:focus {
     outline: none;
   }
   &:focus-visible {
-    border: 1px solid $color-green-dark;
-
+    border: 1px solid #000;
   }
-
+  @media (max-width: 768px) {
+    visibility: hidden;
+  }
 } 
 

@@ -12,6 +12,8 @@
   align-items: center;
   gap: 10px;
   background-color: rgba(0, 0, 0, .95);
+
+
   &_opened {
     visibility: visible;
     display: flex;
@@ -78,9 +80,8 @@
   position: relative;
   display: flex;
   align-items: center;
-  margin: 0 auto;
-
-
+  justify-content: center;
+  // margin: 0 auto;
   padding: 20px;
   block-size: 80%;
 }

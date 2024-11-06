@@ -13,7 +13,7 @@ export const SliderImageUI: React.FC<ISliderImageProps> = ({ link, title, index,
         onClick={onClick}
         src={link}
         alt={title}
-        className={classNames(styles.sliderImage_active, { [styles.sliderImage_closed]: !isActive })}
+        className={classNames({[styles.sliderImage_active]:isActive, [styles.sliderImage_closed]: !isActive })}
       />
     </div>
   )

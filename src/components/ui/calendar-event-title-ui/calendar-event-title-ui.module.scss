@@ -2,8 +2,12 @@
 
 .eventTitleBlock {
   font-family: $fontGeneral;
-  font-size: 30px;
+  font-size: $font-subtitle-size;
   text-align: center;
   color: $color-black;
   margin-block-end: 15px;
+  @media (max-width: 768px) {
+    font-size: $font-subtitle-size_mobile;
+    margin-block-end: 5px;
+  }
 }

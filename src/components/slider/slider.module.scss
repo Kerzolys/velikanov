@@ -2,7 +2,12 @@
   display: flex;
   align-items: center;
   block-size: 450px;
+  gap: 10px;
+
   &_modal {
     block-size: 100%;
+  }
+  @media (max-width: 768px) {
+
   }
 }

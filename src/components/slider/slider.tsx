@@ -66,7 +66,7 @@ export const Slider: React.FC<SliderProps> = ({ onClick, isModal }) => {
         sliderRef.current.removeEventListener('mouseleave', handleMouseLeave)
       }
     };
-  }, []);
+  }, [isModal]);
 
   return (
     <div className={classNames(styles.slider, {[styles.slider_modal]: isModal})}>

@@ -9,4 +9,13 @@
   &_dark {
     color: $color-white;
   }
+  @media (max-width: 1140px) {
+    font-size: $font-section-size_tablet;
+    margin-block-end: 35px;
+
+  }
+  @media (max-width: 768px) {
+    font-size: $font-section-size_mobile;
+    margin-block-end: 25px;
+  }
 }

@@ -9,4 +9,8 @@
   &__soloist  {
     margin-block-start: 10px;
   }
+  @media (max-width: 768px) {
+    font-size: $font-text-size_mobile;
+    margin-block: 10px;
+  }
 }

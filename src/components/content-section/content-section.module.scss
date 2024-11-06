@@ -1,9 +1,18 @@
 @import '../../utils/variables.scss';
 
 .contentSection {
-  padding-block: 80px;
+  padding-block: 60px;
   padding-inline: 120px;
   background-color: $color-light;
+
+  @media (max-width: 1140px) {
+    padding-block: 40px;
+    padding-inline: 50px;
+  }
+  @media (max-width: 768px) {
+    padding-block: 25px;
+    padding-inline: 25px;
+  }
 }
 
 

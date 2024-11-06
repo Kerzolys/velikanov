@@ -1,7 +1,18 @@
 .mediaVideoBlock {
   box-shadow: 0 4px 50px 10px #000;
   transition: transform 0.3s ease-in-out;
+  background-color: #000;
+  display: block;
+  border-radius: 5px;
   &:hover {
     transform: scale(1.1);
+  }
+
+  @media (max-width: 768px) {
+    box-shadow: 0 4px 20px 5px #000;
+    & iframe {
+      width: 100%;
+      // height: auto;
+    }
   }
 }

@@ -2,20 +2,24 @@
 
 @import './fonts.scss';
 
-$fontArtifika: 'Artifika', Georgia, 'Times New Roman', Times, serif;
-$fontPodkova: 'Podkova', Georgia, 'Times New Roman', Times, serif;
+
 
 $color-light: #EFEAEA;
-$color-green-dark: #808E6A;
 $color-dark: #666;
 $color-black: #000;
 $color-white: #fff;
+
 $font-main-size: 75px;
 $font-section-size: 35px;
+$font-section-size_tablet: 30px;
+$font-section-size_mobile: 25px;
 $font-subtitle-size: 25px;
+$font-subtitle-size_mobile: 20px;
 $font-text-size: 18px;
+$font-text-size_tablet: 16px;
+$font-text-size_mobile: 14px;
 $font-small-size: 14px;
-
+$font-small-size_mobile: 16px;
 
 $fontGeneral: 'Times New Roman', Times, serif;
 $fontSecondary: Arial, Helvetica, sans-serif;
