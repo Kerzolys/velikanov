@@ -9,4 +9,12 @@
   block-size: 450px;
   max-block-size: 450px;
   overflow: hidden;
+
+  &_modal {
+    inline-size: 80vw;
+    max-inline-size: 100%;
+    block-size: 80vh;
+    max-block-size: 100%;
+    cursor: none;
+  }
 }

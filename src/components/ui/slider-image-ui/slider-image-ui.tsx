@@ -4,12 +4,17 @@ import styles from './slider-image-ui.module.scss'
 import { ISliderImageProps } from './type'
 
 
-export const SliderImageUI: React.FC<ISliderImageProps> = ({ link, title, index, currentIndex }) => {
+export const SliderImageUI: React.FC<ISliderImageProps> = ({ link, title, index, currentIndex, onClick }) => {
   const isActive = index === currentIndex
 
   return (
     <div className={styles.sliderImage}>
-      <img src={link} alt={title} className={classNames(styles.sliderImage_active, { [styles.sliderImage_closed]: !isActive })} />
+      <img
+        onClick={onClick}
+        src={link}
+        alt={title}
+        className={classNames(styles.sliderImage_active, { [styles.sliderImage_closed]: !isActive })}
+      />
     </div>
   )
 }

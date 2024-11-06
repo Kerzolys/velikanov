@@ -2,33 +2,66 @@
 
 .arrow {
   position: relative;
-  inline-size: 70px;
-  aspect-ratio: 1/1;
   border: none;
+  opacity: .2;
   background-color: transparent;
   transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
-  position: relative;
-  opacity: .2;
+  inline-size: 70px;
+  block-size: 100%;
  
   &:hover {
-    transform: scale(1.2);
     opacity: .5;
+    background-color: rgba(0,0,0,0.2);
   }
-  &_backward::before, &_forward::before {
+
+  &:focus-visible {
+    opacity: 1;
+    background-color: transparent;
+    transform: scale(1.2) ;
+  }
+
+  &:focus-visible {
+    opacity: 1;
+    background-color: transparent;
+    transform: scale(1.2) ;
+  }
+
+  &::before {
     content: '';
     position: absolute;
     top: 50%;
     left: 50%;
+    border-radius: 3px;
     border-inline-end: 5px solid #000;
     border-block-end: 5px solid #000;
-    border-radius: 3px;
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
     inline-size: 20px;
     aspect-ratio: 1/1;
   }
+
   &_backward::before {
     transform: translate(-50%, -50%) rotate(135deg);
   }
   &_forward::before {
     transform: translate(-50%, -50%) rotate(-45deg);
   }
+  &_backward:hover::before {
+    transform: scale(1.2) translate(-50%, -50%) rotate(135deg);
+  }
+  &_forward:hover::before  {
+    transform: scale(1.2) translate(-50%, -50%) rotate(-45deg);
+  }
+  &_modal:hover  {
+    opacity: .5;
+    background-color: rgba(218, 216, 216, 0.5);
+  }
+  &_modal::before {
+    border-inline-end: 5px solid $color-light;
+    border-block-end: 5px solid $color-light;
+    border-radius: 3px;
+    opacity: 1;
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  }
+
+
 }

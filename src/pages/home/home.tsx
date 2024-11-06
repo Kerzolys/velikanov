@@ -6,10 +6,22 @@ import { ContentCalendar } from "components/content-calendar/calendar-content";
 import { ContentMedia } from "components/content-media/content-media";
 import { ContentGallery } from "components/content-gallery/content-gallery";
 import { CoverSection } from "components/cover-section/cover-section";
-import { RefObject, useRef } from "react";
+import { useRef, useState } from "react";
+import { ModalGallery } from "components/modal-gallery/modal-gallery";
+import { Modal } from "components/modal/modal";
 
 
 export const Home = () => {
+  // const [modalOpen, setModalOpen] = useState(false);
+
+  // const openModal = () => {
+  //   setModalOpen(true);
+  // }
+
+  // const closeModal = () => {
+  //   setModalOpen(false);
+  // }
+
   const bioRef = useRef<HTMLDivElement | null>(null)
   const calendarRef = useRef<HTMLDivElement | null>(null)
   const mediaRef = useRef<HTMLDivElement | null>(null)
@@ -40,6 +52,10 @@ export const Home = () => {
       <ContentSection ref={galleryRef} title='Gallery'>
         <ContentGallery />
       </ContentSection>
+      {/* {modalOpen &&
+        <Modal isOpen={modalOpen} onClose={closeModal}>
+          <ModalGallery />
+        </Modal>} */}
     </Layout>
   </>)
 }

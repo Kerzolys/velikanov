@@ -1,0 +1,87 @@
+@import '../../../utils/variables.scss';
+
+.modal {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 10;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  background-color: rgba(0, 0, 0, .95);
+  &_opened {
+    visibility: visible;
+    display: flex;
+    opacity: 1;
+    transition: visibility .3s, opacity .3s;
+    pointer-events: all;
+  }
+  &_closed {
+    visibility: hidden;
+    display: flex;
+    opacity: 0;
+    transition: visibility 0s, opacity 0s;
+    pointer-events: none;
+    user-select: none;
+  }
+  &__closeButton {
+    position: absolute;
+    border: none;
+    border: none;
+    box-shadow: none;
+    background-color: transparent;
+    cursor: pointer;
+    inset-block-start: -35px;
+    inset-inline-end: 0;
+    inline-size: 30px;
+    aspect-ratio: 1 / 1;
+  }
+  &__closeButton:hover {
+    background-color: transparent;
+  }
+  &__closeButton::before,
+  &__closeButton::after {
+    content: "";
+    position: absolute;
+    border: 1px solid #000;
+    border-radius: 3px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    background-color: #fff;
+    transition: transform 0.3s ease;
+    inline-size: 100%;
+    block-size: 5px;
+    inset-inline-start: -1px;
+    inset-block-start: 12px;
+  }
+  &__closeButton:focus-visible::before,
+  &__closeButton:hover::before {
+    transform: rotate(-45deg);
+  }
+
+  &__closeButton:focus-visible::after,
+  &__closeButton:hover::after {
+  transform: rotate(45deg);
+}
+
+  &__closeButton:focus {
+  outline: none;
+}
+
+  &__closeButton:focus-visible {
+  border: 1px solid rgba(255, 0, 0, 0.543);
+  }
+
+  &__content {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin: 0 auto;
+
+
+  padding: 20px;
+  block-size: 80%;
+}
+}

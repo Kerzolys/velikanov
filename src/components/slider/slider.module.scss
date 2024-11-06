@@ -1,4 +1,8 @@
 .slider {
   display: flex;
   align-items: center;
+  block-size: 450px;
+  &_modal {
+    block-size: 100%;
+  }
 }

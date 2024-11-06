@@ -4,8 +4,10 @@ import { useEffect, useRef, useState } from "react";
 import { testImages } from "utils/testImages";
 
 import styles from './slider.module.scss'
+import { SliderProps } from "./type";
+import classNames from "classnames";
 
-export const Slider = () => {
+export const Slider: React.FC<SliderProps> = ({ onClick, isModal }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const sliderRef = useRef<HTMLDivElement | null>(null)
@@ -53,6 +55,10 @@ export const Slider = () => {
       sliderRef.current.addEventListener('mouseleave', handleMouseLeave)
     }
 
+    if (isModal) {
+      stopInterval()
+    }
+
     return () => {
       stopInterval()
       if (sliderRef.current) {
@@ -63,10 +69,10 @@ export const Slider = () => {
   }, []);
 
   return (
-    <div className={styles.slider}>
-      <SliderArrow direction="backward" onClick={prevSlide} />
-      <SliderUI ref={sliderRef} slides={testImages} currentSlide={currentSlide} />
-      <SliderArrow direction="forward" onClick={nextSlide} />
+    <div className={classNames(styles.slider, {[styles.slider_modal]: isModal})}>
+      <SliderArrow direction="backward" onClick={prevSlide} isModal={isModal} />
+      <SliderUI onClick={onClick} ref={sliderRef} slides={testImages} currentSlide={currentSlide} isModal={isModal} />
+      <SliderArrow direction="forward" onClick={nextSlide} isModal={isModal} />
     </div>
   )
 }
