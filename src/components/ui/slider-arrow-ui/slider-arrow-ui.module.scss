@@ -64,6 +64,8 @@
   }
   @media (max-width: 767px) {
     opacity: 1;
-    background-color: transparent;
+    &:hover {
+      background: none;
+    }
   }
 }
