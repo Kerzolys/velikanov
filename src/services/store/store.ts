@@ -4,8 +4,13 @@ import {
   useDispatch as dispatchHook,
   useSelector as selectorHook,
 } from "react-redux";
+import userReducer from '../../features/userSlice/userSlice'
+import eventsReducer from '../../features/eventsSlice/eventsSlice'
 
-export const rootReducer = combineReducers({});
+export const rootReducer = combineReducers({
+  user: userReducer,
+  events: eventsReducer,
+});
 
 const store = configureStore({
   reducer: rootReducer,

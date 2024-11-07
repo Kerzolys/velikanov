@@ -5,6 +5,7 @@ export type TEvent = {
   program: string[];
   soloist?: string;
   link?: string;
+  id?: string;
 };
 
 export type TVideo = {
@@ -16,4 +17,11 @@ export type TImage = {
   link: string;
   title: string;
   id?: string;
+};
+
+export type TUser = {
+  email: string;
+  password: string;
+  accessToken: string;
+  refreshToken: string;
 };
