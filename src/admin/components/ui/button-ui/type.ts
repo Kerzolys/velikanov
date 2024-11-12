@@ -1,4 +1,4 @@
-export type ButtoUIProps= {
+export type ButtonUIProps= {
   buttonText: string
   onClick?: () =>  void
   className?: string

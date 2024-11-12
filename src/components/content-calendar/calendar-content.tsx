@@ -1,12 +1,15 @@
+import { useSelector } from "services/store/store"
 import { testEvents } from "../../utils/testEvents"
 import { CalendarEventUI } from "../ui/calendar-event-ui/calendar-event-ui"
 
 import styles from './calendar-content.module.scss'
+import { eventsSelector } from "features/eventsSlice/eventsSlice"
 
 export const ContentCalendar = () => {
+  const { events } = useSelector(eventsSelector)
   return (
     <div className={styles.calendarContainer}>
-      {testEvents.length > 0 ? testEvents.map(event => {
+      {events.length > 0 ? events.map(event => {
         return <CalendarEventUI
           date={event.date}
           time={event.time}

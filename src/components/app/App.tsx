@@ -9,14 +9,18 @@ import { initializeAuth, userSelector } from 'features/userSlice/userSlice';
 import { AdminSignIn } from 'pages/admin/sign-in/sign-in';
 import { AdminSignUp } from 'pages/admin/sign-up/sign-up';
 import { AdminCalendar } from 'pages/admin/calendar/calendar';
+import { fetchEvents } from 'features/eventsSlice/eventsSlice';
 
 function App() {
   const { isAuthenticated } = useSelector(userSelector)
   const dispatch = useDispatch()
-  console.log(isAuthenticated)
+  // console.log(isAuthenticated)
 
   useEffect(() => {
     dispatch(initializeAuth())
+  }, [dispatch])
+  useEffect(() => {
+    dispatch(fetchEvents())
   }, [dispatch])
   return (
     <>

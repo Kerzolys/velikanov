@@ -10,7 +10,7 @@ import { getCookie, setCookie } from "services/cookie";
 import { RootState } from "services/store/store";
 import { TUser } from "services/types";
 
-export const singUpUser = createAsyncThunk(
+export const signUpUser = createAsyncThunk(
   "user/signUpUser",
   async (
     { email, password }: { email: string; password: string },
@@ -72,12 +72,10 @@ export const initializeAuth = createAsyncThunk(
   async (_, { dispatch }) => {
     try {
       const accessToken = getCookie("accessToken");
-      console.log(accessToken)
       if (accessToken) {
         const auth = getAuth();
         onAuthStateChanged(auth, (user) => {
           if (user) {
-            console.log(user)
             const refreshToken = localStorage.getItem("refreshToken");
             dispatch(
               setUser({
@@ -162,15 +160,15 @@ export const userSlice = createSlice({
         state.loading = false;
         state.error = action.error as string;
       })
-      .addCase(singUpUser.pending, (state) => {
+      .addCase(signUpUser.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(singUpUser.fulfilled, (state, action) => {
+      .addCase(signUpUser.fulfilled, (state, action) => {
         state.success = true;
         state.loading = false;
       })
-      .addCase(singUpUser.rejected, (state, action) => {
+      .addCase(signUpUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error as string;
       });

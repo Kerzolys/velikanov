@@ -7,7 +7,7 @@ import classNames from "classnames"
 export const Navbar = ({ onScroll }: { onScroll: (section: "about" | "calendar" | "media" | "gallery") => void }) => {
   const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' && window.innerWidth <= 768)
 
-  console.log(isMobile)
+  // console.log(isMobile)
   useEffect(() => {
     const mediaQuery = window.matchMedia('(max-width: 768px)')
     const handleMediaQuery = (evt:any) => setIsMobile(evt.matches)
