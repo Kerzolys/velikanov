@@ -4,7 +4,17 @@ import { ICalendarEvent } from "./type";
 
 import styles from './calendar-event-ui.module.scss'
 
-export const CalendarEventUI: React.FC<ICalendarEvent> = ({ date, time, location, program, soloist, isEditable, onClick }) => {
+export const CalendarEventUI: React.FC<ICalendarEvent> = ({
+  date,
+  time,
+  location,
+  program,
+  soloist,
+  onClick,
+  onEdit,
+  onDelete,
+  onChange
+}) => {
   return (
     <div onClick={onClick} className={styles.eventBlock}>
       <CalendarEventTitleUI date={date} time={time} location={location} />

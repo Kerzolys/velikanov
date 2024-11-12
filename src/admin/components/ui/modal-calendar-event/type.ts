@@ -1,9 +1,7 @@
-import { ActionCreatorWithPayload, AsyncThunk } from "@reduxjs/toolkit";
-import { TEvent } from "services/types";
+import { EditableEvent } from "services/types";
 
-export type ModalCalendarEventUIProps = {
-  onClick: () => void;
-  error?: string;
-  value: TEvent;
-  // action: AsyncThunk<any, T, {}> | ActionCreatorWithPayload<T>;
+export type ModalCalendarEventProps = {
+  values: EditableEvent;
+  onChange: (evt: React.ChangeEvent<HTMLInputElement>) => void;
+  onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
 };

@@ -8,6 +8,8 @@ export type TEvent = {
   id?: string;
 };
 
+export type EditableEvent = Omit<TEvent, 'program'> & { program: string }
+
 export type TVideo = {
   title: string;
   url: string;

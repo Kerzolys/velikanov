@@ -17,9 +17,11 @@ export const fetchEvents = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const eventRef = collection(db, "events");
-      // console.log(eventRef)
       const eventSnapshot = await getDocs(eventRef);
-      const eventList = eventSnapshot.docs.map((doc) => doc.data() as TEvent);
+      const eventList = eventSnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data() as TEvent
+      }))
       return eventList;
     } catch (error) {
       return rejectWithValue(error as string);
@@ -35,7 +37,6 @@ export const addEvent = createAsyncThunk(
         ...event,
       });
       return { ...event, id: eventRef.id };
-      console.log(eventRef);
     } catch (error) {
       return rejectWithValue(error as string);
     }
@@ -50,6 +51,7 @@ export const editEvent = createAsyncThunk(
         throw new Error("Event ID is required");
       }
       const eventRef = doc(db, "events", event.id);
+      console.log(eventRef);
       await updateDoc(eventRef, {
         date: event.date,
         time: event.time,
@@ -57,9 +59,10 @@ export const editEvent = createAsyncThunk(
         program: event.program,
         soloist: event.soloist,
       });
+      console.log(event);
       return event;
     } catch (error) {
-      return rejectWithValue(error as string);
+      return rejectWithValue(error);
     }
   }
 );
@@ -140,6 +143,7 @@ export const eventsSlice = createSlice({
         const editedEvent = state.events.find(
           (event) => event.id === action.payload.id
         );
+        console.log(editedEvent);
         if (editedEvent) {
           editedEvent.date = action.payload.date;
           editedEvent.time = action.payload.time;
