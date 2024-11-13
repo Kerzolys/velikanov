@@ -52,7 +52,7 @@ export const SignUp = () => {
     <FormUI
     inputs={inputs}
     buttons={buttons}
-    formHeader="Sign in"
+    formHeader="Sign up"
     formName="loginForm"
     values={values}
     onSubmit={handleSubmit}

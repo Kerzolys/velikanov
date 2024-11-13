@@ -6,10 +6,12 @@ import {
 } from "react-redux";
 import userReducer from '../../features/userSlice/userSlice'
 import eventsReducer from '../../features/eventsSlice/eventsSlice'
+import bioReducer from '../../features/bioSlice/bioSlice'
 
 export const rootReducer = combineReducers({
   user: userReducer,
   events: eventsReducer,
+  bio: bioReducer
 });
 
 const store = configureStore({

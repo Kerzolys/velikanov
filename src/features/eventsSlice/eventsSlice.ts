@@ -51,7 +51,7 @@ export const editEvent = createAsyncThunk(
         throw new Error("Event ID is required");
       }
       const eventRef = doc(db, "events", event.id);
-      console.log(eventRef);
+      // console.log(eventRef);
       await updateDoc(eventRef, {
         date: event.date,
         time: event.time,

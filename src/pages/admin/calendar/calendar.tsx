@@ -6,6 +6,7 @@ import { Modal } from "components/modal/modal"
 import { CalendarEventUI } from "components/ui/calendar-event-ui/calendar-event-ui"
 import { addEvent, eventsSelector, removeEvent } from "features/eventsSlice/eventsSlice"
 import { useState } from "react"
+import { useLocation, useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "services/store/store"
 import { EditableEvent, TEvent } from "services/types"
 import { testEvents } from "utils/testEvents"
@@ -22,7 +23,8 @@ export const AdminCalendar = () => {
 
   const dispatch = useDispatch()
   const { events } = useSelector(eventsSelector)
-  console.log(events)
+  // console.log(events)
+  // const location = useLocation()
 
   const handleAdd = () => setIsOpen(true)
   const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,9 +43,11 @@ export const AdminCalendar = () => {
     }))
     setIsOpen(false)
   }
+  const navigate = useNavigate()
 
-  const handleSave = () => {
-    console.log('changes saved')
+  const handleBack = () => {
+    // console.log('changes saved')
+    navigate('/admin')
   }
 
   const handleClose = () => setIsOpen(false)
@@ -55,8 +59,8 @@ export const AdminCalendar = () => {
       {events.map((event, index) => {
         return <CalendarEvent key={index} event={event} />
       })}
-      <ButtonUI type='button' buttonText="добавить концерт" onClick={handleAdd} />
-      <ButtonUI type='submit' buttonText="сохранить" onClick={handleSave} />
+      <ButtonUI type='button' buttonText="add event" onClick={handleAdd} />
+      <ButtonUI type='submit' buttonText="back" onClick={handleBack} />
       {isOpen &&
         <Modal isOpen={isOpen} onClose={handleClose}>
           <ModalCalendarEvent

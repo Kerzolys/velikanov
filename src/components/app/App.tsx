@@ -10,6 +10,10 @@ import { AdminSignIn } from 'pages/admin/sign-in/sign-in';
 import { AdminSignUp } from 'pages/admin/sign-up/sign-up';
 import { AdminCalendar } from 'pages/admin/calendar/calendar';
 import { fetchEvents } from 'features/eventsSlice/eventsSlice';
+import { AdminBio } from 'pages/admin/bio/bio';
+import { AdminGallery } from 'pages/admin/gallery/gallery';
+import { AdminMedia } from 'pages/admin/media/media';
+import { fetchBio } from 'features/bioSlice/bioSlice';
 
 function App() {
   const { isAuthenticated } = useSelector(userSelector)
@@ -21,6 +25,7 @@ function App() {
   }, [dispatch])
   useEffect(() => {
     dispatch(fetchEvents())
+    dispatch(fetchBio())
   }, [dispatch])
   return (
     <>
@@ -31,6 +36,10 @@ function App() {
         <Route path='/admin/signin' element={<AdminSignIn />} />
         <Route path='/admin/signup' element={<AdminSignUp />} />
         <Route path='/admin/calendar' element={<AdminCalendar />} />
+        <Route path='/admin/about' element={<AdminBio />} />
+        <Route path='/admin/gallery' element={<AdminGallery />} />
+        <Route path='/admin/media' element={<AdminMedia />} />
+
       </Routes>
     </>
 

@@ -1,3 +1,9 @@
+export type TBio = {
+  text: string;
+  position: number;
+  id?: string;
+};
+
 export type TEvent = {
   date: string;
   time: string;
@@ -8,7 +14,7 @@ export type TEvent = {
   id?: string;
 };
 
-export type EditableEvent = Omit<TEvent, 'program'> & { program: string }
+export type EditableEvent = Omit<TEvent, "program"> & { program: string };
 
 export type TVideo = {
   title: string;
