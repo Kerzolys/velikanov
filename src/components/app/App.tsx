@@ -14,6 +14,7 @@ import { AdminBio } from 'pages/admin/bio/bio';
 import { AdminGallery } from 'pages/admin/gallery/gallery';
 import { AdminMedia } from 'pages/admin/media/media';
 import { fetchBio } from 'features/bioSlice/bioSlice';
+import { fetchVideos } from 'features/mediaSlice/mediaSlice';
 
 function App() {
   const { isAuthenticated } = useSelector(userSelector)
@@ -26,6 +27,7 @@ function App() {
   useEffect(() => {
     dispatch(fetchEvents())
     dispatch(fetchBio())
+    dispatch(fetchVideos())
   }, [dispatch])
   return (
     <>
