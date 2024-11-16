@@ -19,6 +19,7 @@ export type EditableEvent = Omit<TEvent, "program"> & { program: string };
 export type TVideo = {
   title: string;
   url: string;
+  id?: string;
 };
 
 export type TImage = {

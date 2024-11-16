@@ -7,7 +7,7 @@ export type FormUIProps = {
   buttons: ButtonUIProps[];
   formHeader: string;
   formName: string;
-  values: Record<string, string | string[]>;
+  values: Record<string, string | string[] | number>;
   onChange: (evt: React.ChangeEvent<HTMLInputElement>) => void;
   onClick?: () => void;
   onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;

@@ -7,11 +7,13 @@ import {
 import userReducer from '../../features/userSlice/userSlice'
 import eventsReducer from '../../features/eventsSlice/eventsSlice'
 import bioReducer from '../../features/bioSlice/bioSlice'
+import mediaReducer from '../../features/mediaSlice/mediaSlice'
 
 export const rootReducer = combineReducers({
   user: userReducer,
   events: eventsReducer,
-  bio: bioReducer
+  bio: bioReducer,
+  media: mediaReducer
 });
 
 const store = configureStore({

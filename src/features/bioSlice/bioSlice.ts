@@ -7,6 +7,7 @@ import {
   doc,
   getDocs,
   updateDoc,
+  writeBatch,
 } from "firebase/firestore";
 import { RootState } from "services/store/store";
 import { TBio } from "services/types";
@@ -21,7 +22,6 @@ export const fetchBio = createAsyncThunk(
         id: doc.id,
         ...(doc.data() as TBio),
       }));
-      console.log(bioList);
       return bioList;
     } catch (err) {
       return rejectWithValue(err as string);
@@ -60,7 +60,7 @@ export const removeBioText = createAsyncThunk(
 );
 
 export const editBioText = createAsyncThunk(
-  'bio/editBioText',
+  "bio/editBioText",
   async (paragraph: TBio, { rejectWithValue }) => {
     try {
       if (!paragraph.id) {
@@ -73,7 +73,27 @@ export const editBioText = createAsyncThunk(
       return rejectWithValue(err as string);
     }
   }
-)
+);
+
+export const saveBioOrder = createAsyncThunk(
+  "bio/saveBioOrder",
+  async (bioArray: TBio[], { rejectWithValue }) => {
+    try {
+      const batch = writeBatch(db);
+      bioArray.forEach((paragraph) => {
+        if (paragraph.id) {
+          const paragraphRef = doc(db, "bio", paragraph.id);
+          batch.update(paragraphRef, {
+            position: paragraph.position,
+          });
+        }
+      });
+      await batch.commit();
+    } catch (err) {
+      return rejectWithValue(err as string);
+    }
+  }
+);
 
 export type BioState = {
   bio: TBio[];
@@ -93,9 +113,21 @@ export const bioSlice = createSlice({
   name: "bio",
   initialState,
   reducers: {
-    // setBio: (state, action: PayloadAction<TBio[]>) => {
-    //   state.bio = action.payload;
-    // },
+    changePosition: (
+      state,
+      action: PayloadAction<{ from: number; to: number }>
+    ) => {
+      const { from, to } = action.payload;
+      const sortedBio = [...state.bio];
+      const [movedParagraph] = sortedBio.splice(from, 1);
+      sortedBio.splice(to, 0, movedParagraph);
+      sortedBio.forEach((p, i) => (p.position = i));
+
+      state.bio = sortedBio.map((p, i) => ({
+        ...p,
+        position: i,
+      }));
+    },
   },
   extraReducers(builder) {
     builder
@@ -129,13 +161,41 @@ export const bioSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(removeBioText.fulfilled, (state, action: PayloadAction<string>) => {
+      .addCase(
+        removeBioText.fulfilled,
+        (state, action: PayloadAction<string>) => {
+          state.loading = false;
+          state.success = true;
+          state.bio = state.bio.filter((bio) => bio.id !== action.payload);
+        }
+      )
+      .addCase(removeBioText.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+      .addCase(editBioText.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(editBioText.fulfilled, (state, action: PayloadAction<TBio>) => {
         state.loading = false;
         state.success = true;
-        state.bio = state.bio.filter((bio) => bio.id!== action.payload);
+        state.error = null;
+        const editedParagraph = state.bio.find(
+          (paragraph) => paragraph.id === action.payload.id
+        );
+        if (editedParagraph) {
+          editedParagraph.text = action.payload.text;
+        }
       })
+      .addCase(editBioText.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      });
   },
 });
+
+export const { changePosition } = bioSlice.actions;
 
 export const bioSelector = (state: RootState) => state.bio;
 export default bioSlice.reducer;
