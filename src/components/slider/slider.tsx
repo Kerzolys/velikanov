@@ -6,19 +6,24 @@ import { testImages } from "utils/testImages";
 import styles from './slider.module.scss'
 import { SliderProps } from "./type";
 import classNames from "classnames";
+import { useSelector } from "services/store/store";
+import { gallerySelector } from "features/gallerySlice/gallerySlice";
 
 export const Slider: React.FC<SliderProps> = ({ onClick, isModal }) => {
+  const { gallery } = useSelector(gallerySelector)
+  console.log(gallery)
+
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const sliderRef = useRef<HTMLDivElement | null>(null)
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const nextSlide = () => {
-    setCurrentSlide((current) => (current + 1) % testImages.length);
+    setCurrentSlide((current) => (current + 1) % gallery.length);
   };
 
   const prevSlide = () => {
-    setCurrentSlide((current) => (current - 1 + testImages.length) % testImages.length);
+    setCurrentSlide((current) => (current - 1 + gallery.length) % gallery.length);
   };
 
   const goToSlide = (index: number) => {
@@ -69,9 +74,9 @@ export const Slider: React.FC<SliderProps> = ({ onClick, isModal }) => {
   }, [isModal]);
 
   return (
-    <div className={classNames(styles.slider, {[styles.slider_modal]: isModal})}>
+    <div className={classNames(styles.slider, { [styles.slider_modal]: isModal })}>
       <SliderArrow direction="backward" onClick={prevSlide} isModal={isModal} />
-      <SliderUI onClick={onClick} ref={sliderRef} slides={testImages} currentSlide={currentSlide} isModal={isModal} />
+      <SliderUI onClick={onClick} ref={sliderRef} slides={gallery} currentSlide={currentSlide} isModal={isModal} />
       <SliderArrow direction="forward" onClick={nextSlide} isModal={isModal} />
     </div>
   )

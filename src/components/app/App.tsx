@@ -15,6 +15,7 @@ import { AdminGallery } from 'pages/admin/gallery/gallery';
 import { AdminMedia } from 'pages/admin/media/media';
 import { fetchBio } from 'features/bioSlice/bioSlice';
 import { fetchVideos } from 'features/mediaSlice/mediaSlice';
+import { fetchPhotos } from 'features/gallerySlice/gallerySlice';
 
 function App() {
   const { isAuthenticated } = useSelector(userSelector)
@@ -28,6 +29,7 @@ function App() {
     dispatch(fetchEvents())
     dispatch(fetchBio())
     dispatch(fetchVideos())
+    dispatch(fetchPhotos())
   }, [dispatch])
   return (
     <>

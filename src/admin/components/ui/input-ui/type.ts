@@ -5,4 +5,5 @@ export type InputUIProps = {
   error?: string | undefined;
   name?: string | undefined;
   type: string;
+  accept?: string | undefined;
 };

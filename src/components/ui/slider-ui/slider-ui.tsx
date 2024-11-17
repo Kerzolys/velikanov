@@ -10,7 +10,7 @@ export const SliderUI = forwardRef<HTMLDivElement, SliderUIProps>(({ slides, cur
     <div className={classNames( {[styles.slider_modal]: isModal, [styles.slider]: !isModal})} ref={ref}>
       {slides.map((slide, index) => {
         return <SliderImageUI 
-        key={index}
+        key={slide.id}
         onClick={onClick}
         link={slide.link} 
         title={slide.title} 

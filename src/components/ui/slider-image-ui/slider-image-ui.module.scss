@@ -1,24 +1,33 @@
 .sliderImage {
+  cursor: pointer;
   inline-size: 100%;
   aspect-ratio: 16/9;
-  cursor: pointer;
   img {
-    inline-size: 80%;
-    block-size: 100%;
     object-fit: contain;
     transition: opacity 0.3s ease-in-out;
+    inline-size: 80%;
+    block-size: 100%;
   }
   
   &_active  {
     position: absolute;
     top: 0;
     left: 50%;
-    transform: translateX(-50%);
     opacity: 1;
     transition: opacity 0.3s ease-in-out;
+    transform: translateX(-50%);
   }
   &_closed {
     visibility: hidden;
     opacity: 0;
+  }
+  &_admin {
+      object-fit: contain;
+      transition: opacity 0.3s ease-in-out;
+     
+      inline-size: 80%;
+      block-size: 100%;
+      position: relative;
+    
   }
 }
