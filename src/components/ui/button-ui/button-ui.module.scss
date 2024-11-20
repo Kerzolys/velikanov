@@ -5,26 +5,26 @@
   z-index: 10;
   border-radius: 10px;
   padding-block: 4px 6px;
-  font-family: $fontArtifika;
+  font-family: $fontGeneral;
   font-size: $font-small-size;
   background-color: transparent;
   inline-size: 120px;
   max-block-size: 30px;
-  &:hover {
-    color: $color-white;
-    background-color: $color-dark;
-  }
-  &:active {
-    color: $color-white;
-    background-color: $color-green-dark;
-  }
-  &:focus-visible {
-    outline: none;
-  }
-  &:disabled {
-    opacity: 0.5;
-    cursor: none;
-  }
+  // &:hover {
+  //   color: $color-white;
+  //   background-color: $color-dark;
+  // }
+  // &:active {
+  //   color: $color-white;
+  //   background-color: $color-green-dark;
+  // }
+  // &:focus-visible {
+  //   outline: none;
+  // }
+  // &:disabled {
+  //   opacity: 0.5;
+  //   cursor: none;
+  // }
   // &_dark {
   //   background-color: $color-light;
   //   color: $color-black;
