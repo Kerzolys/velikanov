@@ -1,6 +1,7 @@
 import classNames from 'classnames'
-import styles from './modal-ui.module.scss'
 import { ModalUIProps } from './type'
+
+import styles from './modal-ui.module.scss'
 
 export const ModalUI: React.FC<ModalUIProps> = ({ isOpen, onClose, children, modalRef, closeButtonRef }) => {
   return (

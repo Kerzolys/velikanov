@@ -1,7 +1,11 @@
 import { ModalUI } from "components/ui/modal-ui/modal-ui";
-import ReactDOM from "react-dom";
+import ReactDOM, { createPortal } from "react-dom";
 import { ModalProps } from "./type";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
+
+import styles from './modal.module.scss'
+const modalRoot = document.getElementById('modal')
+
 
 export const Modal: React.FC<ModalProps> = ({ isOpen, children, onClose }) => {
   const modalRef = useRef<HTMLDivElement | null>(null)
@@ -13,8 +17,7 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, children, onClose }) => {
     }
   }
 
-  const modalRoot = document.getElementById('modal-root')
-  return ReactDOM.createPortal(
+  return createPortal(
     <ModalUI
       modalRef={modalRef}
       closeButtonRef={closeButtonRef}

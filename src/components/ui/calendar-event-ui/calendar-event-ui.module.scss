@@ -1,8 +1,10 @@
 .eventBlock {
-  padding: 35px 185px;
+  padding: 35px 5%;
   border: 1px solid #000;
   border-radius: 10px;
   box-shadow: 0 4px 50px 10px #000;
+  inline-size: 100%;
+  max-inline-size: 700px;
   &:not(:last-child) {
     margin-block-end: 50px;;
   }

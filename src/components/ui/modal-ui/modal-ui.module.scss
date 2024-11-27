@@ -7,27 +7,30 @@
   bottom: 0;
   left: 0;
   z-index: 10;
+  visibility: hidden;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: rgba(0, 0, 0, .95);
-  inline-size: 100vw;
-  block-size: 100&;
   box-sizing: border-box;
+  opacity: 0;
+  background-color: rgba(0, 0, 0, .75);
+  transition: visibility .9s, opacity .9s;
+  inline-size: 10v0w;
+  block-size: 100vh;
 
 
   &_opened {
     visibility: visible;
     display: flex;
     opacity: 1;
-    transition: visibility .3s, opacity .3s;
+    transition: visibility .9s, opacity .9s;
     pointer-events: all;
   }
   &_closed {
     visibility: hidden;
     display: flex;
     opacity: 0;
-    transition: visibility 0s, opacity 0s;
+    transition: visibility 0.3s, opacity 0.3s;
     pointer-events: none;
     user-select: none;
   }
@@ -81,8 +84,8 @@
   &__content {
   position: relative;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   margin: 0 auto;
   // padding: 20px;
   block-size: 80vh;

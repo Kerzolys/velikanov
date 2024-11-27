@@ -15,9 +15,9 @@ export const FormUI: React.FC<FormUIProps> = ({
   onSubmit
 }) => {
   return (
-    <>
-      <h2>{formHeader}</h2>
-      <form name={formName} onSubmit={onSubmit}>
+    <div className={styles.formContainer}>
+      <h2 className={styles.formContainer__header}>{formHeader}</h2>
+      <form name={formName} onSubmit={onSubmit} className={styles.formContainer__form}>
         {inputs.map((input) => {
           return <InputUI
             key={input.name}
@@ -27,12 +27,13 @@ export const FormUI: React.FC<FormUIProps> = ({
             onChange={onChange}
             name={input.name}
             value={values[input.name as keyof typeof values] as string}
+            className={styles.formContainer__form__input}
           />
         })}
         {buttons.map((button) => {
           return <ButtonUI buttonText={button.buttonText} onClick={onClick} />
         })}
       </form>
-    </>
+    </div>
   )
 }

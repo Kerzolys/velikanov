@@ -1,0 +1,34 @@
+// .modal {
+//   position: fixed;
+//   top: 0;
+//   right: 0;
+//   bottom: 0;
+//   left: 0;
+//   z-index: 10;
+//   visibility: hidden;
+//   opacity: 0;
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: center;
+//   align-items: center;
+//   box-sizing: border-box;
+//   transition: opacity 0.3s ease-in-out;
+//   pointer-events: none;
+//   // background-color: rgba(0, 0, 0, 0.95);
+//   background-color: red;
+
+//   inline-size: 100vw;
+//   block-size: 100vh;
+
+//   &_opened {
+//     visibility: visible !important;  /* Видимость включена */
+//     opacity: 1 !important;         /* Полностью видно */
+//     pointer-events: all; /* Разрешаем взаимодействие */
+//   }
+
+//   &_closed {
+//     visibility: hidden; /* Видимость выключена */
+//     opacity: 0;         /* Полностью невидимо */
+//     pointer-events: none; /* Отключаем взаимодействие */
+//   }
+// }

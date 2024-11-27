@@ -4,4 +4,5 @@ export type ModalUIProps = {
   children: React.ReactNode;
   modalRef: React.RefObject<HTMLDivElement>;
   closeButtonRef: React.RefObject<HTMLButtonElement>;
+  // className?: string;
 };

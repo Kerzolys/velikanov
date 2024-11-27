@@ -1,15 +1,14 @@
 import { CalendarEvent } from "admin/components/calendar-event/calendar-event"
 import { ButtonUI } from "admin/components/ui/button-ui/button-ui"
 import { ModalCalendarEvent } from "admin/components/ui/modal-calendar-event/modal-calendar-event"
-import { ContentCalendar } from "components/content-calendar/calendar-content"
 import { Modal } from "components/modal/modal"
-import { CalendarEventUI } from "components/ui/calendar-event-ui/calendar-event-ui"
-import { addEvent, eventsSelector, removeEvent } from "features/eventsSlice/eventsSlice"
+import { addEvent, eventsSelector } from "features/eventsSlice/eventsSlice"
 import { useState } from "react"
-import { useLocation, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "services/store/store"
-import { EditableEvent, TEvent } from "services/types"
-import { testEvents } from "utils/testEvents"
+import { EditableEvent } from "services/types"
+
+import styles from './calendar.module.scss'
 
 export const AdminCalendar = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -55,7 +54,7 @@ export const AdminCalendar = () => {
 
 
   return (
-    <>
+    <div className={styles.calendarContainer}>
       {events.map((event, index) => {
         return <CalendarEvent key={index} event={event} />
       })}
@@ -70,6 +69,6 @@ export const AdminCalendar = () => {
           />
         </Modal>
       }
-    </>
+    </div>
   )
 }

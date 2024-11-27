@@ -11,7 +11,6 @@ import { gallerySelector } from "features/gallerySlice/gallerySlice";
 
 export const Slider: React.FC<SliderProps> = ({ onClick, isModal }) => {
   const { gallery } = useSelector(gallerySelector)
-  console.log(gallery)
 
   const [currentSlide, setCurrentSlide] = useState(0);
 

@@ -12,14 +12,19 @@
   background-color: transparent;
   inline-size: 120px;
   max-block-size: 30px;
+  transition: transform .3s ease-in-out;
+  box-shadow: 0 2px 10px 0 #0000006d;
+  border: 1px solid #000;
+
   &:focus {
     outline: none;
   }
   &:focus-visible {
-    border: 1px solid #000;
+    border: 2px solid #000;
+    transform: scale(1.1) 
   }
-  // @media (max-width: 768px) {
-  //   visibility: hidden;
-  // }
+  &:hover {
+    transform: scale(1.1)
+  }
 } 
 

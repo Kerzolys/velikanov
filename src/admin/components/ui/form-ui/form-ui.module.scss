@@ -1,0 +1,45 @@
+@import '../../../../utils/variables.scss';
+
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background-color: #fff;
+  padding: 20px 30px;
+  border: 1px solid #000;
+  border-radius: 10px;
+  &__header {
+    font-family: $fontGeneral;
+    font-size: $font-section-size;
+    font-weight: bold;
+  }
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    &__input[type='text'] {
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-family: $fontSecondary;
+      font-size: $font-text-size;
+      inline-size: 300px;
+    }
+    &__submit {
+      padding: 10px 20px;
+      border-radius: 5px;
+      background-color: $color-black;
+      color: $color-white;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    &__submit:hover {
+      background-color: $color-dark;
+    }
+    &__error {
+      color: red;
+      font-size: $font-small-size;
+      margin-block-end: 10px;
+    }
+  }
+}
