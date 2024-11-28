@@ -8,6 +8,7 @@ import { SliderProps } from "./type";
 import classNames from "classnames";
 import { useSelector } from "services/store/store";
 import { gallerySelector } from "features/gallerySlice/gallerySlice";
+import { PreloaderUI } from "components/ui/preloader-ui/preloader";
 
 export const Slider: React.FC<SliderProps> = ({ onClick, isModal }) => {
   const { gallery } = useSelector(gallerySelector) || { gallery: [] }
@@ -17,12 +18,18 @@ export const Slider: React.FC<SliderProps> = ({ onClick, isModal }) => {
   const sliderRef = useRef<HTMLDivElement | null>(null)
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
+  console.log(gallery)
+  
   const nextSlide = () => {
-    setCurrentSlide((current) => (current + 1) % gallery.length);
+    if (gallery.length > 0) {
+      setCurrentSlide((current) => (current + 1) % gallery.length);
+    }
   };
 
   const prevSlide = () => {
-    setCurrentSlide((current) => (current - 1 + gallery.length) % gallery.length);
+    if (gallery.length > 0) {
+      setCurrentSlide((current) => (current - 1 + gallery.length) % gallery.length);
+    }
   };
 
   const goToSlide = (index: number) => {
@@ -72,7 +79,10 @@ export const Slider: React.FC<SliderProps> = ({ onClick, isModal }) => {
     };
   }, [isModal]);
 
-  console.log(currentSlide)
+  if (gallery.length === 0 && !gallery) {
+    return <PreloaderUI />
+  }
+
 
   return (
     <div className={classNames(styles.slider, { [styles.slider_modal]: isModal })}>
