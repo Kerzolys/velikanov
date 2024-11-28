@@ -10,10 +10,10 @@ import { SocialIconsBlockProps } from './type'
 export const SocialIconsBlock: React.FC<SocialIconsBlockProps> = ({isHomePage}) => {
   return (
     <div className={styles.socialIconsBlock}>
-      <SocialLinkUI isHomePage={isHomePage} icon={facebookIcon} path='https://www.facebook.com' label='facebook' />
-      <SocialLinkUI isHomePage={isHomePage} icon={youtubeIcon} path='https://www.youtube.com' label='instagram' />
-      <SocialLinkUI isHomePage={isHomePage} icon={telegramIcon} path='https://t.me/meduzalive' label='telegram' />
-      <SocialLinkUI isHomePage={isHomePage} icon={instagramIcon} path='https://www.instagram.com' label='instagram' />
+      <SocialLinkUI isHomePage={isHomePage} icon={facebookIcon} path='https://www.facebook.com/share/12BBdGabEFT/?mibextid=LQQJ4d' label='facebook' />
+      {/* <SocialLinkUI isHomePage={isHomePage} icon={youtubeIcon} path='https://www.youtube.com' label='instagram' /> */}
+      <SocialLinkUI isHomePage={isHomePage} icon={telegramIcon} path='https://t.me/velikanovconductor' label='telegram' />
+      {/* <SocialLinkUI isHomePage={isHomePage} icon={instagramIcon} path='https://www.instagram.com' label='instagram' /> */}
     </div>
   )
 }

@@ -18,10 +18,6 @@ export const Slider: React.FC<SliderProps> = ({ onClick, isModal }) => {
   const sliderRef = useRef<HTMLDivElement | null>(null)
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
-  console.log(gallery)
-  console.log(currentSlide)
-
-
   const nextSlide = () => {
     if (gallery.length > 0) {
       setCurrentSlide((current) => (current + 1) % gallery.length);

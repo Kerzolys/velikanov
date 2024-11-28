@@ -6,10 +6,11 @@ import { BioParagraphUI } from 'components/ui/bio-paragraph-ui/bio-paragraph-ui'
 
 export const BioContent = () => {
   const { bio } = useSelector(bioSelector)
-  // const sortedBio = [...bio].sort((a,b) => a.position - b.position)
+  const sortedBio = [...bio].sort((a,b) => a.position - b.position)
+  console.log(bio)
   return (
     <div className={styles.bio}>
-      {bio
+      {sortedBio
         .map(bio => {
           return <BioParagraphUI key={bio.id} text={bio.text}/>
         })}
