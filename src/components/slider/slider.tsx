@@ -18,15 +18,11 @@ export const Slider: React.FC<SliderProps> = ({ onClick, isModal }) => {
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const nextSlide = () => {
-    if (gallery.length > 0) {
-      setCurrentSlide((current) => (current + 1) % gallery.length);
-    }
+    setCurrentSlide((current) => (current + 1) % gallery.length);
   };
 
   const prevSlide = () => {
-    if (gallery.length > 0) {
-      setCurrentSlide((current) => (current - 1 + gallery.length) % gallery.length);
-    }
+    setCurrentSlide((current) => (current - 1 + gallery.length) % gallery.length);
   };
 
   const goToSlide = (index: number) => {
