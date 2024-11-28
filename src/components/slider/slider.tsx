@@ -10,7 +10,7 @@ import { useSelector } from "services/store/store";
 import { gallerySelector } from "features/gallerySlice/gallerySlice";
 
 export const Slider: React.FC<SliderProps> = ({ onClick, isModal }) => {
-  const { gallery } = useSelector(gallerySelector)
+  const { gallery } = useSelector(gallerySelector) || { gallery: [] }
 
   const [currentSlide, setCurrentSlide] = useState(0);
 
@@ -18,11 +18,15 @@ export const Slider: React.FC<SliderProps> = ({ onClick, isModal }) => {
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const nextSlide = () => {
-    setCurrentSlide((current) => (current + 1) % gallery.length);
+    if (gallery.length > 0) {
+      setCurrentSlide((current) => (current + 1) % gallery.length);
+    }
   };
 
   const prevSlide = () => {
-    setCurrentSlide((current) => (current - 1 + gallery.length) % gallery.length);
+    if (gallery.length > 0) {
+      setCurrentSlide((current) => (current - 1 + gallery.length) % gallery.length);
+    }
   };
 
   const goToSlide = (index: number) => {
@@ -71,6 +75,8 @@ export const Slider: React.FC<SliderProps> = ({ onClick, isModal }) => {
       }
     };
   }, [isModal]);
+
+  console.log(currentSlide)
 
   return (
     <div className={classNames(styles.slider, { [styles.slider_modal]: isModal })}>
