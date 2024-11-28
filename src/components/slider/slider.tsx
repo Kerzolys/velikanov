@@ -19,7 +19,9 @@ export const Slider: React.FC<SliderProps> = ({ onClick, isModal }) => {
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   console.log(gallery)
-  
+  console.log(currentSlide)
+
+
   const nextSlide = () => {
     if (gallery.length > 0) {
       setCurrentSlide((current) => (current + 1) % gallery.length);
@@ -48,7 +50,10 @@ export const Slider: React.FC<SliderProps> = ({ onClick, isModal }) => {
   }
 
   useEffect(() => {
-    startInterval()
+    if (gallery.length > 0) {
+
+      startInterval()
+    }
 
     const handleMouseEnter = () => {
       stopInterval()
@@ -77,7 +82,7 @@ export const Slider: React.FC<SliderProps> = ({ onClick, isModal }) => {
         sliderRef.current.removeEventListener('mouseleave', handleMouseLeave)
       }
     };
-  }, [isModal]);
+  }, [isModal, gallery]);
 
   if (gallery.length === 0 && !gallery) {
     return <PreloaderUI />
