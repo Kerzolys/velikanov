@@ -8,5 +8,5 @@ export const s3Config = {
     secretAccessKey: process.env.REACT_APP_YANDEX_SECRET_KEY || '',
   }
 }
-
+console.log(s3Config)
 export const s3 = new S3Client(s3Config);
