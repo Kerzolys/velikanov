@@ -1,0 +1,14 @@
+@import "../../../utils/variables.scss";
+
+.galleryContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  border: 1px solid #000;
+  border-radius: 10px;  
+  padding: 20px 30px;
+  background-color: $color-light;
+  block-size: 100%;
+  min-block-size: 100vh;
+}

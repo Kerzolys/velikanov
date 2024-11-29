@@ -59,7 +59,6 @@ export const editEvent = createAsyncThunk(
         program: event.program,
         soloist: event.soloist,
       });
-      console.log(event);
       return event;
     } catch (error) {
       return rejectWithValue(error);
@@ -143,7 +142,6 @@ export const eventsSlice = createSlice({
         const editedEvent = state.events.find(
           (event) => event.id === action.payload.id
         );
-        console.log(editedEvent);
         if (editedEvent) {
           editedEvent.date = action.payload.date;
           editedEvent.time = action.payload.time;
@@ -178,16 +176,6 @@ export const eventsSlice = createSlice({
       });
   },
 });
-
-// export const {
-//   // setEvents,
-//   // addEvent,
-//   // removeEvent,
-//   // editEvent,
-//   // selectEvent,
-//   // setError,
-//   // setLoading,
-// } = eventsSlice.actions;
 
 export const eventsSelector = (state: RootState) => state.events;
 

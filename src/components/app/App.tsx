@@ -8,23 +8,26 @@ import { useDispatch, useSelector } from 'services/store/store';
 import { initializeAuth, userSelector } from 'features/userSlice/userSlice';
 import { AdminSignIn } from 'pages/admin/sign-in/sign-in';
 import { AdminSignUp } from 'pages/admin/sign-up/sign-up';
-import { AdminCalendar } from 'pages/admin/calendar/calendar';
+import { AdminCalendar } from 'pages/admin/admin-calendar/admin-calendar';
 import { fetchEvents } from 'features/eventsSlice/eventsSlice';
-import { AdminBio } from 'pages/admin/bio/bio';
-import { AdminGallery } from 'pages/admin/gallery/gallery';
-import { AdminMedia } from 'pages/admin/media/media';
+import { AdminBio } from 'pages/admin/admin-bio/admin-bio';
+import { AdminGallery } from 'pages/admin/admin-gallery/admin-gallery';
+import { AdminMedia } from 'pages/admin/admin-media/admin-media';
 import { fetchBio } from 'features/bioSlice/bioSlice';
 import { fetchVideos } from 'features/mediaSlice/mediaSlice';
 import { fetchPhotos } from 'features/gallerySlice/gallerySlice';
+import { OnlyAuth, OnlyUnAuth } from 'admin/components/protected-route/protected-route';
 
 function App() {
   const { isAuthenticated } = useSelector(userSelector)
   const dispatch = useDispatch()
-  // console.log(isAuthenticated)
+  console.log(isAuthenticated)
 
   useEffect(() => {
-    dispatch(initializeAuth())
-  }, [dispatch])
+    if (!isAuthenticated) {
+      dispatch(initializeAuth());
+    }
+  }, [dispatch, isAuthenticated])
   useEffect(() => {
     dispatch(fetchEvents())
     dispatch(fetchBio())
@@ -37,13 +40,12 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path='*' element={<PageNotFound />} />
         <Route path='/admin/' element={<Admin />} />
-        <Route path='/admin/signin' element={<AdminSignIn />} />
+        <Route path='/admin/signin' element={<OnlyUnAuth component={<AdminSignIn />} />} />
         <Route path='/admin/signup' element={<AdminSignUp />} />
-        <Route path='/admin/calendar' element={<AdminCalendar />} />
-        <Route path='/admin/about' element={<AdminBio />} />
-        <Route path='/admin/gallery' element={<AdminGallery />} />
-        <Route path='/admin/media' element={<AdminMedia />} />
-
+        <Route path='/admin/calendar' element={<OnlyAuth component={<AdminCalendar />} />} />
+        <Route path='/admin/about' element={<OnlyAuth component={<AdminBio />} />} />
+        <Route path='/admin/gallery' element={<OnlyAuth component={<AdminGallery />} />} />
+        <Route path='/admin/media' element={<OnlyAuth component={<AdminMedia />} />} />
       </Routes>
     </>
 

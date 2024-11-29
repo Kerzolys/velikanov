@@ -1,0 +1,14 @@
+@import '../../../utils/variables.scss';
+
+.calendarContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;  
+  padding: 20px 30px;
+  align-items: center;
+  background-color: $color-light;
+  border: 1px solid #000;
+  border-radius: 10px;
+  block-size: 100%;
+  min-block-size: 100vh;
+}

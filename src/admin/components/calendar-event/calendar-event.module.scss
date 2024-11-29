@@ -1,0 +1,20 @@
+@import '../../../utils/variables.scss';
+
+.calendarEvent {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 20px 30px;
+  background-color: $color-light;
+  margin-inline: 20px;
+  &__buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    inline-size: 100%;
+  }
+}

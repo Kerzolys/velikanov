@@ -1,0 +1,27 @@
+@import '../../../utils/variables.scss';
+
+.bioParagraph {
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+gap: 10px;
+margin-inline: 20px;
+padding: 20px 30px;
+font-family: $fontSecondary;
+font-size: $font-text-size;
+background-color: $color-light;
+border: 1px solid #000;
+border-radius: 10px;
+  &:not(:last-child) {
+    margin-block-end: 15px;   
+  }
+  &__buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    inline-size: 100%;
+  }
+}

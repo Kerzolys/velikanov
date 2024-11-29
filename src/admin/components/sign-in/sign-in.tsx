@@ -3,12 +3,14 @@ import { loginUser } from "features/userSlice/userSlice"
 import { FormUI } from "../ui/form-ui/form-ui"
 import { useDispatch } from "services/store/store"
 import { useState } from "react"
+import { useForm } from "features/hooks/useForm"
 
 export const SignIn = () => {
-  const [values, setValues] = useState({ email: '', password: '' })
+  // const [values, setValues] = useState({ email: '', password: '' })
   // const [error, setError] = useState({email: '', password: ''})
-  
+
   const dispatch = useDispatch()
+  const { values, setValues, handleChange } = useForm<{ email: string, password: string }>({ email: '', password: '' })
   const handleSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault()
 
@@ -18,15 +20,19 @@ export const SignIn = () => {
     //   }))
     // }
 
-    dispatch(loginUser({ email: values.email, password: values.password }))
+
+    dispatch(loginUser({
+      ...values
+    }))
+    setValues({ email: '', password: '' })
   }
 
-  const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = evt.target
-    setValues(prevValues => ({
-      ...prevValues, [name]: value
-    }))
-  }
+  // const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+  //   const { name, value } = evt.target
+  //   setValues(prevValues => ({
+  //     ...prevValues, [name]: value
+  //   }))
+  // }
 
 
   const inputs = [
@@ -56,7 +62,6 @@ export const SignIn = () => {
       values={values}
       onSubmit={handleSubmit}
       onChange={handleChange}
-
     />
   )
 }

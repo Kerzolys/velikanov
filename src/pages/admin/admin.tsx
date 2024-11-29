@@ -1,34 +1,38 @@
-import { SignIn } from "admin/components/sign-in/sign-in";
-import { SignUp } from "admin/components/sign-up/sign-up";
-import { ButtonUI } from "admin/components/ui/button-ui/button-ui";
 import { logout, userSelector } from "features/userSlice/userSlice";
-import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "services/store/store";
+import { useState } from "react";
+import { AdminNavbarUI } from "admin/components/ui/admin-navbar-ui/admin-navbar-ui";
+import { AdminWelcomePageUI } from "admin/components/ui/admin-welcom-page-ui/admin-welcom-page-ui";
+
+import styles from './admin.module.scss'
 
 export const Admin = () => {
   const dispatch = useDispatch()
   const { isAuthenticated } = useSelector(userSelector)
 
+  const [isOpen, setIsOpen] = useState(false)
+  const [modalType, setModalType] = useState<'signin' | 'signup' | null>(null)
+
   const handleLogout = () => {
     dispatch(logout())
   }
 
+  const handleSignIn = () => {
+    setIsOpen(true)
+    setModalType('signin')
+  }
+
+  const handleSignUp = () => {
+    setIsOpen(true)
+    setModalType('signup')
+  }
+
   return (
-    <>
-      {!isAuthenticated ? <SignIn /> : <h1>welcome</h1>}
-      <NavLink to='/admin/calendar'>
-        <ButtonUI type='button' buttonText="Calendar" />
-      </NavLink>
-      <NavLink to='/admin/about'>
-        <ButtonUI type='button' buttonText="Bio" />
-      </NavLink>
-      <NavLink to='/admin/media'>
-        <ButtonUI type='button' buttonText="Media" />
-      </NavLink>
-      <NavLink to='/admin/gallery'>
-        <ButtonUI type='button' buttonText="Gallery" />
-      </NavLink>
-      <ButtonUI type='button' buttonText="Log out" onClick={handleLogout}/>
-    </>
+    <div className={styles.container}>
+      {!isAuthenticated ?
+        <AdminWelcomePageUI isOpen={isOpen} setIsOpen={setIsOpen} onSignIn={handleSignIn} onSignUp={handleSignUp} modalType={modalType} setModalType={setModalType} />
+        : <AdminNavbarUI onLogout={handleLogout} isHomePage={true} />
+      }
+    </div>
   )
 }

@@ -1,0 +1,27 @@
+
+
+.galleryPhoto {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;  
+  padding: 20px 30px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #000;
+  border-radius: 10px;
+  &__image {
+    inline-size: 100%;
+    max-inline-size: 400px;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+  }
+  &__buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    inline-size: 100%;
+    margin-block-start: 20px;
+  }
+}

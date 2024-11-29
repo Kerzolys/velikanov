@@ -5,12 +5,13 @@ import { ButtonUIProps } from "../ui/button-ui/type"
 import { useDispatch } from "services/store/store"
 import { useState } from "react"
 import { FormUI } from "../ui/form-ui/form-ui"
+import { useForm } from "features/hooks/useForm"
 
 export const SignUp = () => {
 
-  const [values, setValues] = useState({ email: '', password: '' })
+  // const [values, setValues] = useState({ email: '', password: '' })
   // const [error, setError] = useState({email: '', password: ''})
-  
+  const {values, setValues, handleChange} = useForm<{ email: string, password: string }>({ email: '', password: '' })
   const dispatch = useDispatch()
   const handleSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault()
@@ -22,14 +23,15 @@ export const SignUp = () => {
     // }
 
     dispatch(signUpUser({ email: values.email, password: values.password }))
+    setValues({ email: '', password: '' })
   }
 
-  const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = evt.target
-    setValues(prevValues => ({
-      ...prevValues, [name]: value
-    }))
-  }
+  // const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+  //   const { name, value } = evt.target
+  //   setValues(prevValues => ({
+  //     ...prevValues, [name]: value
+  //   }))
+  // }
   const inputs: InputUIProps[] = [
     {
       name: 'email',

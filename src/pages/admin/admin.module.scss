@@ -1,0 +1,120 @@
+@import '../../utils/variables.scss';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  height: 100vh;
+  margin: 0 auto;
+  inline-size: 100vw;
+  background-color: $color-light;
+  // &__authContent {
+  //   display: flex;
+  //   flex-direction: column;
+  //   justify-content: center;
+  //   align-items: center;
+  //   gap: 20px;
+  //   & h1 {
+  //     animation: fadeIn 3s forwards;
+  //     font-family: $fontGeneral;
+  //     font-size: $font-main-size;
+  //   }
+  //   &__buttons {
+  //     display: flex;
+  //     flex-direction: row;
+  //     justify-content: center;
+  //     align-items: center;
+  //     gap: 20px;
+  //     animation: fadeIn 5s forwards;
+      
+  //     &__signIn,
+  //     &__signUp {
+  //       border: 1px solid #000;
+  //       border-radius: 5px;
+  //       padding: 10px 20px;
+  //       background-color: #fff;
+  //       transition: all 0.3s ease-in-out;
+  //       animation: fadeIn 5s forwards;
+  //       cursor: pointer;
+  //       font-family: $fontSecondary;
+  //       font-size: $font-text-size;
+  //     }
+  //     &__signIn:hover,
+  //     &__signUp:hover {
+  //       color: #fff;
+  //       background-color: #000;
+  //     }
+  //     &__signIn:active,
+  //     &__signUp:active {
+  //       color: #fff;
+  //       background-color: #000;
+  //       transform: scale(0.9);
+  //     }
+  //     &__signIn:focus,
+  //     &__signUp:focus {
+  //       outline: none;
+  //     }
+  //     &__signIn:focus-visible,
+  //     &__signUp:focus-visible {
+  //       border: 1px solid #000;
+  //       border-radius: 5px;
+  //       background-color: #0000006a;
+  //     }
+  //   }
+  }
+//   &__content {
+//     display: flex;
+//     flex-direction: column;
+//     justify-content: center;
+//     align-items: center;
+//     gap: 10px;
+//     animation: fadeIn 5s forwards;
+//     border: 1px solid #000;
+//     border-radius: 10px;
+//     padding: 20px 30px;
+//     &__header {
+//       font-family: $fontGeneral;
+//       font-size: $font-section-size;
+//       font-weight: bold;
+//     }
+//     &__button {
+//       animation: fadeIn 5s forwards;
+//       animation-delay: 3s;
+//       opacity: 0;
+//     }
+//     &__button:nth-child(1) {
+//       animation-delay: 0.5s;
+//     }
+    
+//     &__button:nth-child(2) {
+//       animation-delay: 1s;
+//     }
+    
+//     &__button:nth-child(3) {
+//       animation-delay: 1.5s;
+//     }
+    
+//     &__button:nth-child(4) {
+//       animation-delay: 2s;
+//     }
+    
+//     &__button:nth-child(5) {
+//       animation-delay: 2.5s;
+//     }
+//   }
+
+// }
+
+// @keyframes fadeIn {
+//   from {
+//     opacity: 0;
+//     transform: translateY(-10px);
+//   }
+//   to {
+//     opacity: 1;
+//     transform: translateY(0);
+//   }
+// }
+

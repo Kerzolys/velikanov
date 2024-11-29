@@ -1,0 +1,33 @@
+@import '../../../../utils/variables.scss';
+
+.authContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  & h1 {
+    animation: fadeIn 3s forwards;
+    font-family: $fontGeneral;
+    font-size: $font-main-size;
+  }
+  &__buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    animation: fadeIn 5s forwards;
+  }
+}
+
+@keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }

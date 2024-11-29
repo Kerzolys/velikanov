@@ -1,0 +1,32 @@
+@import '../../../../utils/variables.scss';
+
+.button {
+  border: 1px solid #000;
+  border-radius: 5px;
+  padding: 10px 20px;
+  // opacity: 0;
+  font-family: $fontSecondary;
+  font-size: $font-text-size;
+  background-color: transparent;
+  transition: all 0.3s ease-in-out;
+  // animation: fadeIn 5s forwards;
+  // animation-delay: 3s;
+  cursor: pointer;
+  &:hover {
+    color: #fff;
+    background-color: #000;
+  }
+  &:active {
+    color: #fff;
+    background-color: #000;
+    transform: scale(0.9);
+  }
+  &:focus {
+    outline: none;
+  }
+  &:focus-visible {
+    border: 1px solid #000;
+    border-radius: 5px;
+    background-color: #0000006a;
+  }
+}

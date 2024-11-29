@@ -1,0 +1,22 @@
+@import '../../../utils/variables.scss';
+
+.bioContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;  
+  padding: 20px 30px;
+  align-items: center;
+  justify-content: center;
+  background-color: $color-light;
+  border: 1px solid #000;
+  border-radius: 10px;
+
+  &__buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    inline-size: 100%;
+  }
+}
