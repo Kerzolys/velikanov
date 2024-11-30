@@ -23,7 +23,7 @@ export type TVideo = {
 };
 
 export type TImage = {
-  link: string;
+  link?: string;
   title: string;
   id?: string;
 };

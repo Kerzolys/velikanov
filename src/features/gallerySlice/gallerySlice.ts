@@ -1,7 +1,18 @@
-import { DeleteObjectCommand, ObjectCannedACL, PutObjectCommand } from "@aws-sdk/client-s3";
+import {
+  DeleteObjectCommand,
+  ObjectCannedACL,
+  PutObjectCommand,
+} from "@aws-sdk/client-s3";
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { db } from "../../firebase/firebase";
-import { addDoc, collection, deleteDoc, doc, getDocs } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  updateDoc,
+} from "firebase/firestore";
 import { RootState } from "services/store/store";
 import { TImage } from "services/types";
 import { s3 } from "services/yandexCloud";
@@ -24,18 +35,17 @@ export const fetchPhotos = createAsyncThunk(
 );
 
 export const addPhoto = createAsyncThunk(
-  'photos/addPhoto',
+  "photos/addPhoto",
   async (photo: TImage, { rejectWithValue }) => {
     try {
-      const galleryRef = collection(db, 'photos')
-      await addDoc(galleryRef, photo)
-      return photo
-    }
-    catch (err) {
+      const galleryRef = collection(db, "photos");
+      await addDoc(galleryRef, photo);
+      return photo;
+    } catch (err) {
       return rejectWithValue(err as string);
     }
   }
-)
+);
 
 export const uploadPhoto = createAsyncThunk(
   "photos/uploadPhoto",
@@ -59,9 +69,9 @@ export const uploadPhoto = createAsyncThunk(
 
       const link = `https://storage.yandexcloud.net/${bucketName}/${fileName}`;
       // console.log(link);
-      const photo: TImage = {link, title}
-      const galleryRef = collection(db, 'photos')
-      await addDoc(galleryRef, photo)
+      const photo: TImage = { link, title };
+      const galleryRef = collection(db, "photos");
+      await addDoc(galleryRef, photo);
       return photo;
 
       // return { link, title };
@@ -76,6 +86,9 @@ export const removePhoto = createAsyncThunk(
   async (photo: TImage, { rejectWithValue }) => {
     try {
       const bucket = process.env.REACT_APP_YANDEX_BUCKET_NAME || "";
+      if (!photo.link) {
+        throw new Error("Photo link is required");
+      }
       const key = photo.link.split(`${bucket}/`)[1];
       if (!key) {
         throw new Error("Invalid photo link");
@@ -87,14 +100,30 @@ export const removePhoto = createAsyncThunk(
 
       await s3.send(new DeleteObjectCommand(deleteParams));
 
-      const photoId = photo.id
-      if(!photoId) {
+      const photoId = photo.id;
+      if (!photoId) {
         throw new Error("Photo ID is required");
       }
       const galleryRef = doc(db, "photos", photoId);
       await deleteDoc(galleryRef);
 
-      return {key, photoId};
+      return { key, photoId };
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+);
+
+export const editPhoto = createAsyncThunk(
+  "photos/editPhoto",
+  async (photo: TImage, { rejectWithValue }) => {
+    try {
+      if (!photo.id) {
+        throw new Error("Photo ID is required");
+      }
+      const galleryRef = doc(db, "photos", photo.id);
+      await updateDoc(galleryRef, { title: photo.title });
+      return photo;
     } catch (err) {
       return rejectWithValue(err);
     }
@@ -164,6 +193,23 @@ export const gallerySlice = createSlice({
         );
       })
       .addCase(removePhoto.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+      .addCase(editPhoto.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(editPhoto.fulfilled, (state, action: PayloadAction<TImage>) => {
+        state.loading = false;
+        state.success = true;
+        state.error = null;
+        const updatedPhoto = action.payload;
+        state.gallery = state.gallery.map((photo) =>
+          photo.id === updatedPhoto.id ? updatedPhoto : photo
+        );
+      })
+      .addCase(editPhoto.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       });

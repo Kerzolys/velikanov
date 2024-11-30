@@ -11,6 +11,7 @@ export type FormUIProps = {
   onChange: (evt: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   onClick?: () => void;
   onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
+  errors?: string[]
 };
 
 export type HTMLTextAreaElementProps = {

@@ -29,4 +29,9 @@
     border-radius: 5px;
     background-color: #0000006a;
   }
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
 }

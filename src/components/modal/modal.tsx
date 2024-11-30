@@ -1,9 +1,8 @@
 import { ModalUI } from "components/ui/modal-ui/modal-ui";
-import ReactDOM, { createPortal } from "react-dom";
+import { createPortal } from "react-dom";
 import { ModalProps } from "./type";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 
-import styles from './modal.module.scss'
 const modalRoot = document.getElementById('modal')
 
 

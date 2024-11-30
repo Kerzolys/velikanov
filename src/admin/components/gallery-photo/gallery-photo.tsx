@@ -3,8 +3,9 @@ import { GalleryPhotoProps } from "./type"
 import { ButtonUI } from "../ui/button-ui/button-ui"
 
 import styles from './gallery-photo.module.scss'
+import React from "react"
 
-export const GalleryPhoto: React.FC<GalleryPhotoProps> = ({ photo, onEdit, onRemove }) => {
+export const GalleryPhoto: React.FC<GalleryPhotoProps> = React.memo(({ photo, onEdit, onRemove }) => {
 
 
   return (
@@ -18,4 +19,4 @@ export const GalleryPhoto: React.FC<GalleryPhotoProps> = ({ photo, onEdit, onRem
       </div>
     </div>
   )
-}
+})

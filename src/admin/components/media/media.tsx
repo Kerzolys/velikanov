@@ -5,7 +5,7 @@ import { InputUIProps } from "admin/components/ui/input-ui/type"
 import { Modal } from "components/modal/modal"
 import { useForm } from 'features/hooks/useForm'
 import { addVideo, editVideo, mediaSelector, removeVideo } from "features/mediaSlice/mediaSlice"
-import { useState } from "react"
+import { useCallback, useMemo, useState } from "react"
 import { useDispatch, useSelector } from "services/store/store"
 import { TVideo } from 'services/types'
 import { ModalContentUI } from '../ui/modal-content-ui/modal-content-ui'
@@ -25,25 +25,25 @@ export const Media = () => {
   const handleOpen = () => setIsOpen(true)
   const handleClose = () => setIsOpen(false)
 
-  const handleAdd = () => {
+  const handleAdd = useCallback(() => {
     handleOpen()
     setModalType('add')
     setValues({
       url: "",
       title: "",
     });
-  }
+  },[handleOpen,setModalType, setValues])
 
-  const handleEdit = (video: TVideo) => {
-    setIsOpen(true);
+  const handleEdit = useCallback((video: TVideo) => {
+    handleOpen();
     setModalType("edit");
     setCurrentVideoId(video.id || null);
     setValues({
       ...video,
     });
-  };
+  }, [handleOpen, setModalType, setCurrentVideoId, setValues]);
 
-  const handleSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = useCallback((evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault()
     if (modalType === "add") {
       dispatch(addVideo(values))
@@ -55,15 +55,15 @@ export const Media = () => {
       url: "",
       title: "",
     })
-  }
+  }, [values, modalType, currentVideoId, dispatch, loading, setIsOpen, setValues])
 
-  const handleRemove = (video: TVideo) => {
+  const handleRemove = useCallback((video: TVideo) => {
     dispatch(removeVideo(video))
-  }
+  }, [dispatch])
 
 
 
-  const inputs: InputUIProps[] = [
+  const inputs = useMemo<InputUIProps[]>(() => [
     {
       name: "url",
       type: "text",
@@ -74,52 +74,57 @@ export const Media = () => {
       type: "text",
       placeholder: "Title",
     }
-  ]
+  ], [])
 
-  const buttons: ButtonUIProps[] = [
+  const buttons = useMemo<ButtonUIProps[]>(() => [
     {
       buttonText: "Save",
-      onClick: () => { },
+      onSubmit: handleSubmit,
       type: "submit" as 'submit',
+      disabled: values.url.trim() === "",
     },
     {
       buttonText: 'Cancel',
-      onClick: () => { },
+      onClick: handleClose,
       type: 'button' as 'button'
     }
-  ]
+  ], [values, handleSubmit, handleClose])
+
+  const memoizedValues = useMemo(() => values, [values]);
+  const memoizedHandleChange = useCallback(handleChange, []);
+  const memoizedHandleSubmit = useCallback(handleSubmit, [values, modalType, currentVideoId]);
 
   return (
     <div className={styles.mediaContainer}>
       <ButtonUI type='button' buttonText="Add video" onClick={handleAdd} />
       {loading && <PreloaderUI />}
       {videos.length > 0 ? videos.map(video => {
-        return <MediaVideo key={video.id} video={video} 
-        onEdit={() => handleEdit(video)} 
-        onRemove={() => handleRemove(video)} />
+        return <MediaVideo key={video.id} video={video}
+          onEdit={() => handleEdit(video)}
+          onRemove={() => handleRemove(video)} />
       }) : <h2>There are no videos to edit.<br />Add some new!</h2>}
 
       {isOpen && modalType === 'add' ?
-        <Modal isOpen={isOpen} onClose={handleClose}>
+        <Modal key={modalType} isOpen={isOpen} onClose={handleClose}>
           <ModalContentUI
             inputs={inputs}
             buttons={buttons}
-            values={values}
-            onChange={handleChange}
-            onSubmit={handleSubmit}
+            values={memoizedValues}
+            onChange={memoizedHandleChange}
+            onSubmit={memoizedHandleSubmit}
             onClose={handleClose}
             formHeader='Add video'
             formName='add-video'
           />
         </Modal>
         :
-        <Modal isOpen={isOpen} onClose={handleClose}>
+        <Modal key={modalType} isOpen={isOpen} onClose={handleClose}>
           <ModalContentUI
             inputs={inputs}
             buttons={buttons}
-            values={values}
-            onChange={handleChange}
-            onSubmit={handleSubmit}
+            values={memoizedValues}
+            onChange={memoizedHandleChange}
+            onSubmit={memoizedHandleSubmit}
             onClose={handleClose}
             formHeader='Edit video'
             formName='edit-video'

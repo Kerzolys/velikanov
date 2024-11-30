@@ -2,10 +2,15 @@ import { useSelector } from "services/store/store"
 import { ProtectedRouteProps } from "./type"
 import { userSelector } from "features/userSlice/userSlice"
 import { Navigate, useLocation } from "react-router-dom"
+import { PreloaderUI } from "components/ui/preloader-ui/preloader"
 
 export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ onlyUnAuth, component }) => {
   const { isAuthenticated, user } = useSelector(userSelector)
   const location = useLocation()
+
+  if (!isAuthenticated) {
+    return <PreloaderUI />
+  }
 
   if (!isAuthenticated && location.pathname !== "/admin/signin") {
     return <Navigate to="/admin/signin" state={{ from: location }} />;

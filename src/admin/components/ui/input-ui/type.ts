@@ -6,5 +6,7 @@ export type InputUIProps = {
   name?: string | undefined;
   type: string;
   accept?: string | undefined;
-  className?: string | undefined
+  className?: string | undefined;
+  rows?: number;
+  cols?: number;
 };

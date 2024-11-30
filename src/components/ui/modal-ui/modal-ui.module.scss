@@ -89,6 +89,7 @@
   margin: 0 auto;
   // padding: 20px;
   block-size: 80vh;
-  inline-size: 80vw;
+  inline-size: 100%;
+  max-inline-size: 60vw;
 }
 }

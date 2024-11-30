@@ -25,6 +25,15 @@
       font-size: $font-text-size;
       inline-size: 300px;
     }
+    &__textarea {
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-family: $fontSecondary;
+      font-size: $font-text-size;
+      inline-size: 400px;
+      block-size: 200px;
+    }
     &__submit {
       padding: 10px 20px;
       border-radius: 5px;

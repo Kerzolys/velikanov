@@ -3,8 +3,9 @@ import { CalendarEventProps } from "./type"
 import { ButtonUI } from "../ui/button-ui/button-ui"
 
 import styles from './calendar-event.module.scss'
+import React from "react"
 
-export const CalendarEvent: React.FC<CalendarEventProps> = ({ event, onEdit, onRemove }) => {
+export const CalendarEvent: React.FC<CalendarEventProps> = React.memo(({ event, onEdit, onRemove }) => {
   return (
     <div className={styles.calendarEvent}>
       <CalendarEventUI
@@ -22,4 +23,4 @@ export const CalendarEvent: React.FC<CalendarEventProps> = ({ event, onEdit, onR
       </div>
     </div>
   )
-}
+})

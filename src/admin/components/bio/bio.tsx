@@ -78,8 +78,9 @@ export const Bio = () => {
   const inputs: InputUIProps[] = [
     {
       name: "text",
-      type: "text",
+      type: "textarea",
       placeholder: "Add a part of your bio...",
+      rows: 10,
     }
   ]
   const buttons: ButtonUIProps[] = [
@@ -87,6 +88,7 @@ export const Bio = () => {
       buttonText: "Save",
       onSubmit: handleSubmit,
       type: "submit" as 'submit',
+      disabled: values.text.trim() === '',
     },
     {
       buttonText: 'Cancel',

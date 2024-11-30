@@ -51,6 +51,7 @@ export const SignIn = () => {
     {
       buttonText: "Log In",
       type: "submit" as 'submit',
+      onSubmit: handleSubmit,
     }
   ]
   return (

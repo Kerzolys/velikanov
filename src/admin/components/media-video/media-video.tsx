@@ -1,14 +1,11 @@
 import { MediaVideoUI } from "components/ui/media-video-ui/media-video-ui"
 import { MediaVideoProps } from "./type"
-import { useState } from "react"
-import { Modal } from "components/modal/modal"
-import { useDispatch } from "services/store/store"
-import { editVideo, removeVideo } from "features/mediaSlice/mediaSlice"
+import React from "react"
 import { ButtonUI } from "../ui/button-ui/button-ui"
 
 import styles from './media-video.module.scss'
 
-export const MediaVideo: React.FC<MediaVideoProps> = ({ video, onEdit, onRemove }) => {
+export const MediaVideo: React.FC<MediaVideoProps> = React.memo(({ video, onEdit, onRemove }) => {
   return (
     <div className={styles.mediaVideo}>
       <MediaVideoUI video={video} />
@@ -18,4 +15,4 @@ export const MediaVideo: React.FC<MediaVideoProps> = ({ video, onEdit, onRemove 
       </div>
     </div>
   )
-}
+})

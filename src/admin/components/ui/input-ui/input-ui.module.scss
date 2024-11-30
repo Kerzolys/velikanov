@@ -1,0 +1,53 @@
+@import '../../../../utils/variables.scss';
+
+.inputContainer {
+  margin-bottom: 20px;  
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  &__input[type='text'] {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-family: $fontSecondary;
+    font-size: $font-text-size;
+    inline-size: 300px;
+  }
+  &__input:hover {
+    background-color: #ccc;
+  }
+  &__input:focus {
+    outline: none;
+  }
+  &__input:focus-visible {
+    outline: 1px solid #000;
+    border-radius: 5px;
+  }
+  &__input::selection {
+    background-color: #0000006a;
+    
+  }
+  &__input::-moz-selection {
+    background-color: #0000006a;
+  }
+  &__input::-ms-selection {
+    background-color: #0000006a;
+  }
+  &__input::-webkit-selection {
+    background-color: #0000006a;
+  }
+  &__textarea {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-family: $fontSecondary;
+    font-size: $font-text-size;
+    inline-size: 300px;
+    resize: none;
+  }
+  &__error {
+    font-family: $fontSecondary;
+    font-size: $font-text-size;
+    color: red;
+  }
+}

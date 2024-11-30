@@ -5,10 +5,11 @@ import { AdminNavbarUI } from "admin/components/ui/admin-navbar-ui/admin-navbar-
 import { AdminWelcomePageUI } from "admin/components/ui/admin-welcom-page-ui/admin-welcom-page-ui";
 
 import styles from './admin.module.scss'
+import { PreloaderUI } from "components/ui/preloader-ui/preloader";
 
 export const Admin = () => {
   const dispatch = useDispatch()
-  const { isAuthenticated } = useSelector(userSelector)
+  const { isAuthenticated, loading } = useSelector(userSelector)
 
   const [isOpen, setIsOpen] = useState(false)
   const [modalType, setModalType] = useState<'signin' | 'signup' | null>(null)

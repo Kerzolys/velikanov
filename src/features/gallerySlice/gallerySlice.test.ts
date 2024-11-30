@@ -1,8 +1,13 @@
-import galleryReducer, { gallerySlice, initialState, removePhoto, uploadPhoto } from "./gallerySlice";
+import galleryReducer, { editPhoto, gallerySlice, initialState, removePhoto, uploadPhoto } from "./gallerySlice";
 
 const mockUploadPhoto = {
   link: "https://storage.yandexcloud.net/velikanov-gallery/1645883563691_example.jpg",
   title: "Example Photo",
+};
+
+const mockEditedPhoto = {
+  link: "https://storage.yandexcloud.net/velikanov-gallery/1645883563691_example.jpg",
+  title: "Edited Example Photo",
 };
 
 describe("тестируем gallerySlice", () => {
@@ -89,5 +94,46 @@ describe("тестируем gallerySlice", () => {
         error: "Error",
       });
     })
+  })
+  describe('тестируем экшн editPhoto', () => {
+    it('тестируем запрос editPhoto', async () => {
+    const action = {type: editPhoto.pending.type};
+    const newState = galleryReducer(initialState, action);
+
+    expect(newState).toEqual({
+      ...initialState,
+      loading: true,
+      error: null,
+    });
+    })
+    it('тестируем успешный запрос', async () => {
+      const action = {
+        type: editPhoto.fulfilled.type,
+        payload: mockEditedPhoto,
+      };
+      const newState = galleryReducer({...initialState, gallery: [mockUploadPhoto]}, action);
+
+      expect(newState).toEqual({
+        loading: false,
+        success: true,
+        error: null,
+        gallery: [{...mockUploadPhoto,...mockEditedPhoto}],
+      });
+    })
+    it('тестируем неуспешный запрос', async () => {
+      const action = {
+        type: editPhoto.rejected.type,
+        payload: "Error",
+      };
+      const newState = galleryReducer(initialState, action);
+
+      expect(newState).toEqual({
+       ...initialState,
+        loading: false,
+        error: "Error",
+      });
+    })
+
+
   })
 });

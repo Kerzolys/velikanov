@@ -1,5 +1,5 @@
 import { FormUIProps } from './type'
-import { InputUI } from '../input-ui/input-ui'
+import InputUI from '../input-ui/input-ui'
 import { ButtonUI } from '../button-ui/button-ui'
 
 import styles from './form-ui.module.scss'
@@ -25,8 +25,8 @@ export const FormUI: React.FC<FormUIProps> = ({
               placeholder={input.placeholder}
               onChange={onChange}
               name={input.name}
-              value={values[input.name as keyof typeof values] as string}
-              className={styles.formContainer__form__input}
+              value={values[input.name as keyof typeof values] as string || ''}
+              className={styles.formContainer__form__textarea}
             />
           }
           return <InputUI
@@ -36,12 +36,12 @@ export const FormUI: React.FC<FormUIProps> = ({
             type={input.type}
             onChange={onChange}
             name={input.name}
-            value={values[input.name as keyof typeof values] as string}
+            value={values[input.name as keyof typeof values] as string || ''}
             className={styles.formContainer__form__input}
           />
         })}
         {buttons.map((button) => {
-          return <ButtonUI type={button.type} buttonText={button.buttonText} onClick={button.onClick} onSubmit={onSubmit} />
+          return <ButtonUI type={button.type} buttonText={button.buttonText} onClick={button.onClick} onSubmit={onSubmit} disabled={button.disabled} />
         })}
       </form>
     </div>

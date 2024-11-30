@@ -2,10 +2,9 @@ import { CalendarEvent } from "admin/components/calendar-event/calendar-event"
 import { ButtonUI } from "admin/components/ui/button-ui/button-ui"
 import { Modal } from "components/modal/modal"
 import { addEvent, editEvent, eventsSelector, removeEvent } from "features/eventsSlice/eventsSlice"
-import { useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useState, useMemo, useCallback } from "react"
 import { useDispatch, useSelector } from "services/store/store"
-import { EditableEvent, TEvent } from "services/types"
+import { TEvent } from "services/types"
 import { ModalContentUI } from "admin/components/ui/modal-content-ui/modal-content-ui"
 import { useForm } from "features/hooks/useForm"
 
@@ -15,7 +14,7 @@ import { InputUIProps } from "admin/components/ui/input-ui/type"
 import { PreloaderUI } from "components/ui/preloader-ui/preloader"
 
 export const Calendar = () => {
-  
+
   const { values, handleChange, setValues } = useForm<Omit<TEvent, 'program'> & { program: string }>({
     date: '',
     time: '',
@@ -26,12 +25,16 @@ export const Calendar = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [modalType, setModalType] = useState<"add" | "edit" | null>(null);
   const [currentEventId, setCurrentEventId] = useState<string | null>(null);
-  
+
   const dispatch = useDispatch()
   const { events, loading } = useSelector(eventsSelector)
 
-  const handleAdd = () => {
-    setIsOpen(true)
+  const handleOpen = () => setIsOpen(true)
+  const handleClose = () => setIsOpen(false)
+
+
+  const handleAdd = useCallback(() => {
+    handleOpen()
     setModalType('add')
     setValues({
       date: "",
@@ -41,19 +44,19 @@ export const Calendar = () => {
       soloist: "",
       link: "",
     });
-  }
+  }, [handleOpen, setModalType, setValues])
 
-  const handleEdit = (event: TEvent) => {
-    setIsOpen(true);
+  const handleEdit = useCallback((event: TEvent) => {
+    handleOpen();
     setModalType("edit");
     setCurrentEventId(event.id || null);
     setValues({
       ...event,
       program: event.program.join(', '),
     });
-  };
+  }, [handleOpen, setModalType, setCurrentEventId, setValues]);
 
-  const handleSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = useCallback((evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault()
     const event: TEvent = {
       ...values,
@@ -68,7 +71,7 @@ export const Calendar = () => {
     if (loading) {
       return <PreloaderUI />
     }
-    setIsOpen(false)
+    handleClose()
     setValues({
       date: '',
       time: '',
@@ -76,16 +79,15 @@ export const Calendar = () => {
       program: '',
       soloist: ''
     })
-  }
+  }, [values, modalType, currentEventId, dispatch, loading, setIsOpen, setValues])
 
-  const handleRemove = (eventId: string) => {
+  const handleRemove = useCallback((eventId: string) => {
     dispatch(removeEvent({ id: eventId } as TEvent));
-  };
-
-  const handleClose = () => setIsOpen(false)
+  },[dispatch]);
 
 
-  const inputs: InputUIProps[] = [
+
+  const inputs = useMemo<InputUIProps[]>(() => [
     {
       name: "date",
       type: "text",
@@ -116,20 +118,29 @@ export const Calendar = () => {
       type: "text",
       placeholder: "Link",
     },
-  ]
+  ], [])
 
-  const buttons: ButtonUIProps[] = [
+  const buttons = useMemo<ButtonUIProps[]>(() => [
     {
       buttonText: "Confirm",
       type: "submit" as 'submit',
       onSubmit: handleSubmit,
+      disabled:
+        values.date.trim() === "" ||
+        values.time.trim() === "" ||
+        values.location.trim() === "" ||
+        values.program.trim() === "",
     },
     {
       buttonText: 'Cancel',
       type: 'button' as 'button',
       onClick: handleClose
     }
-  ]
+  ], [values, handleSubmit, handleClose])
+
+  const memoizedValues = useMemo(() => values, [values]);
+  const memoizedHandleChange = useCallback(handleChange, []);
+  const memoizedHandleSubmit = useCallback(handleSubmit, [values, modalType, currentEventId]);
 
   return (
     <div className={styles.calendarContainer}>
@@ -142,23 +153,23 @@ export const Calendar = () => {
           onEdit={() => handleEdit(event)}
           onRemove={() => handleRemove(event.id || '')}
         />
-      }): <h2>There is no events. <br /> Please add some!</h2>}
+      }) : <h2>There is no events. <br /> Please add some!</h2>}
       {isOpen && modalType === 'add' ?
-        <Modal isOpen={isOpen} onClose={handleClose}>
+        <Modal key={modalType} isOpen={isOpen} onClose={handleClose}>
           <ModalContentUI
-            values={values}
+            values={memoizedValues}
             onClose={handleClose}
-            onChange={handleChange}
-            onSubmit={handleSubmit}
+            onChange={memoizedHandleChange}
+            onSubmit={memoizedHandleSubmit}
             inputs={inputs}
             buttons={buttons}
-            formHeader="Edit event"
+            formHeader="Add event"
             formName="editEventForm"
           />
         </Modal> :
-        <Modal isOpen={isOpen} onClose={handleClose}>
+        <Modal key={modalType} isOpen={isOpen} onClose={handleClose}>
           <ModalContentUI
-            values={values}
+            values={memoizedValues}
             onClose={handleClose}
             onChange={handleChange}
             onSubmit={handleSubmit}

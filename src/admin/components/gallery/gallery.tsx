@@ -2,7 +2,7 @@ import { GalleryPhoto } from "admin/components/gallery-photo/gallery-photo"
 import { ButtonUI } from "admin/components/ui/button-ui/button-ui"
 import { Modal } from "components/modal/modal"
 import { PreloaderUI } from "components/ui/preloader-ui/preloader"
-import { gallerySelector, removePhoto, uploadPhoto } from "features/gallerySlice/gallerySlice"
+import { editPhoto, gallerySelector, removePhoto, uploadPhoto } from "features/gallerySlice/gallerySlice"
 import { useForm } from "features/hooks/useForm"
 import { useState } from "react"
 import { useDispatch, useSelector } from "services/store/store"
@@ -11,6 +11,7 @@ import { ModalContentUI } from "../ui/modal-content-ui/modal-content-ui"
 import { InputUIProps } from "../ui/input-ui/type"
 
 import styles from './gallery.module.scss'
+import { ButtonUIProps } from "../ui/button-ui/type"
 
 export const Gallery = () => {
   const { gallery, loading } = useSelector(gallerySelector)
@@ -32,7 +33,7 @@ export const Gallery = () => {
   }
 
   const handleEdit = (photo: TImage) => {
-    setIsOpen(true);
+    handleOpen()
     setModalType("edit");
     setCurrentPhotoId(photo.id || null);
     setValues({
@@ -50,13 +51,15 @@ export const Gallery = () => {
     if (file) {
       if (modalType === "add") {
         dispatch(uploadPhoto({ ...values, file }))
-      } else if (modalType === "edit" && currentPhotoId) {
-        dispatch(uploadPhoto({ ...values, file, }))
       }
+      handleClose()
+      setValues({ title: '' })
+      setFile(null)
     }
-    setIsOpen(false)
-    setValues({ title: '' })
-    setFile(null)
+    if (modalType === "edit" && currentPhotoId) {
+      dispatch(editPhoto(values))
+      handleClose()
+    }
   }
 
   const inputs: InputUIProps[] = [
@@ -72,15 +75,17 @@ export const Gallery = () => {
       placeholder: "Title",
     }
   ]
-  const buttons = [
+  const buttons: ButtonUIProps[] = [
     {
       buttonText: "Save",
-      onClick: () => { },
+      onSubmit: handleSubmit,
       type: "submit" as 'submit',
+      disabled: file === null
     },
     {
       buttonText: 'Cancel',
-      type: 'button' as 'button'
+      type: 'button' as 'button',
+      onClick: handleClose
     }
   ]
 
@@ -94,10 +99,10 @@ export const Gallery = () => {
         gallery.map(photo => {
           return (
             <div key={photo.id}>
-              <GalleryPhoto 
-              photo={photo}
-              onEdit={() => handleEdit(photo)}
-              onRemove={() => handleRemove(photo)}
+              <GalleryPhoto
+                photo={photo}
+                onEdit={() => handleEdit(photo)}
+                onRemove={() => handleRemove(photo)}
               />
               <p>{photo.title}</p>
             </div>
