@@ -11,16 +11,13 @@ export const AdminWelcomePageUI: React.FC<AdminWelcomePageUIProps> = ({ isOpen, 
     <h1>Welcome</h1>
     <div className={styles.authContent__buttons}>
       <ButtonUI type='button' buttonText="Sign in" onClick={onSignIn}  />
-      <ButtonUI type='button' buttonText="Sign up" onClick={onSignUp}  />
+      {/* <ButtonUI type='button' buttonText="Sign up" onClick={onSignUp}  /> */}
     </div>
-    {isOpen && modalType === 'signin' ?
+    {isOpen && modalType === 'signin' &&
       <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
         <AdminSignIn isOpen={isOpen} />
-      </Modal>
-      :
-      <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
-        <AdminSignUp isOpen={isOpen} />
       </Modal>}
+      
   </div>
   )
 }

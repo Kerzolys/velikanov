@@ -17,7 +17,7 @@ export const FormUI: React.FC<FormUIProps> = ({
   return (
     <div className={styles.formContainer}>
       <h2 className={styles.formContainer__header}>{formHeader}</h2>
-      <form name={formName} onSubmit={onSubmit} className={styles.formContainer__form}>
+      <form key={formName} name={formName} onSubmit={onSubmit} className={styles.formContainer__form}>
         {inputs.map((input) => {
           if ('rows' in input) {
             return <textarea
@@ -40,8 +40,8 @@ export const FormUI: React.FC<FormUIProps> = ({
             className={styles.formContainer__form__input}
           />
         })}
-        {buttons.map((button) => {
-          return <ButtonUI type={button.type} buttonText={button.buttonText} onClick={button.onClick} onSubmit={onSubmit} disabled={button.disabled} />
+        {buttons.map((button, index) => {
+          return <ButtonUI key={index} type={button.type} buttonText={button.buttonText} onClick={button.onClick} onSubmit={onSubmit} disabled={button.disabled} />
         })}
       </form>
     </div>

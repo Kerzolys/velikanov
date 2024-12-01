@@ -5,7 +5,7 @@ import { InputUIProps } from "admin/components/ui/input-ui/type"
 import { Modal } from "components/modal/modal"
 import { useForm } from 'features/hooks/useForm'
 import { addVideo, editVideo, mediaSelector, removeVideo } from "features/mediaSlice/mediaSlice"
-import { useCallback, useMemo, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import { useDispatch, useSelector } from "services/store/store"
 import { TVideo } from 'services/types'
 import { ModalContentUI } from '../ui/modal-content-ui/modal-content-ui'
@@ -19,11 +19,24 @@ export const Media = () => {
   const [modalType, setModalType] = useState<"add" | "edit" | null>(null);
   const [currentVideoId, setCurrentVideoId] = useState<string | null>(null);
   const { values, setValues, handleChange } = useForm<TVideo>({ url: '', title: '' })
+  const [error, setError] = useState<{ url: string }>({ url: '' })
 
   const dispatch = useDispatch()
 
   const handleOpen = () => setIsOpen(true)
   const handleClose = () => setIsOpen(false)
+
+  const validate = () => {
+    const newErrors = { url: '' }
+    if (!values.url) newErrors.url = 'URL is required'
+
+    setError(newErrors)
+    return !newErrors.url
+  }
+
+  useEffect(() => {
+    validate()
+  }, [values])
 
   const handleAdd = useCallback(() => {
     handleOpen()
@@ -32,7 +45,7 @@ export const Media = () => {
       url: "",
       title: "",
     });
-  },[handleOpen,setModalType, setValues])
+  }, [handleOpen, setModalType, setValues])
 
   const handleEdit = useCallback((video: TVideo) => {
     handleOpen();
@@ -45,16 +58,20 @@ export const Media = () => {
 
   const handleSubmit = useCallback((evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault()
-    if (modalType === "add") {
-      dispatch(addVideo(values))
-    } else if (modalType === "edit" && currentVideoId) {
-      dispatch(editVideo(values))
+
+    if (validate()) {
+      if (modalType === "add") {
+        dispatch(addVideo(values))
+      } else if (modalType === "edit" && currentVideoId) {
+        dispatch(editVideo(values))
+      }
+      handleClose()
+      setValues({
+        url: "",
+        title: "",
+      })
     }
-    handleClose()
-    setValues({
-      url: "",
-      title: "",
-    })
+
   }, [values, modalType, currentVideoId, dispatch, loading, setIsOpen, setValues])
 
   const handleRemove = useCallback((video: TVideo) => {
@@ -68,13 +85,14 @@ export const Media = () => {
       name: "url",
       type: "text",
       placeholder: "URL",
+      error: error.url,
     },
     {
       name: "title",
       type: "text",
       placeholder: "Title",
     }
-  ], [])
+  ], [error])
 
   const buttons = useMemo<ButtonUIProps[]>(() => [
     {

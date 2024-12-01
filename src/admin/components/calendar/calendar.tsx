@@ -2,7 +2,7 @@ import { CalendarEvent } from "admin/components/calendar-event/calendar-event"
 import { ButtonUI } from "admin/components/ui/button-ui/button-ui"
 import { Modal } from "components/modal/modal"
 import { addEvent, editEvent, eventsSelector, removeEvent } from "features/eventsSlice/eventsSlice"
-import { useState, useMemo, useCallback } from "react"
+import { useState, useMemo, useCallback, useEffect } from "react"
 import { useDispatch, useSelector } from "services/store/store"
 import { TEvent } from "services/types"
 import { ModalContentUI } from "admin/components/ui/modal-content-ui/modal-content-ui"
@@ -22,6 +22,14 @@ export const Calendar = () => {
     program: '',
     soloist: ''
   })
+  const [errors, setErrors] = useState<Omit<TEvent, 'program'> & { program: string }>({
+    date: '',
+    time: '',
+    location: '',
+    program: '',
+    soloist: '',
+    link: '',
+  })
   const [isOpen, setIsOpen] = useState(false)
   const [modalType, setModalType] = useState<"add" | "edit" | null>(null);
   const [currentEventId, setCurrentEventId] = useState<string | null>(null);
@@ -31,6 +39,38 @@ export const Calendar = () => {
 
   const handleOpen = () => setIsOpen(true)
   const handleClose = () => setIsOpen(false)
+
+  const validate = () => {
+    const newErrors = {
+      date: '',
+      time: '',
+      location: '',
+      program: '',
+      soloist: '',
+      link: '',
+    }
+
+    const dateRegex = /\d{1,2}(st|nd|rd|th)?\s[A-Za-z]+\s\d{4}/
+    const timeRegex = /(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]/
+    const locationRegex = /[A-Za-z\s]+,\s[A-Za-z\s]+\s\([A-Za-z\s]+\)/gi
+    const programRegex = /([A-Za-z\s\-]+)\s\-\s([A-Za-z\s\d№N]+)(,\s[A-Za-z\s\-]+\s\-\s[A-Za-z\s\d№N]+)*/gi;
+    if(!values.date) newErrors.date = 'Date is required'
+    else if (!dateRegex.test(values.date)) newErrors.date = 'Invalid date format. It should look like "1st January 2025"'
+
+    if(!values.time) newErrors.time = 'Time is required'
+    else if (!timeRegex.test(values.time)) newErrors.time = 'Invalid time format. It should look like "12:00"'
+    if(!values.location) newErrors.location = 'Location is required'
+    else if (!locationRegex.test(values.location)) newErrors.location = 'Invalid location format. It should look like "Metropolitan Opera House, New York (USA)"'
+    if(!values.program) newErrors.program = 'Program is required'
+    else if (!programRegex.test(values.program)) newErrors.program = 'Invalid program format. It should look like "Brahms - Symphony N4, Prokofiev - Symphony N5"'
+
+    setErrors(newErrors)
+    return !newErrors.date && !newErrors.time && !newErrors.location && !newErrors.program
+  }
+
+  useEffect(() => {
+    validate()
+  },[values])
 
 
   const handleAdd = useCallback(() => {
@@ -58,32 +98,36 @@ export const Calendar = () => {
 
   const handleSubmit = useCallback((evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault()
-    const event: TEvent = {
-      ...values,
-      program: values.program.split(",").map((item) => item.trim()),
-    }
-    if (modalType === "add") {
-      dispatch(addEvent(event));
 
-    } else if (modalType === "edit" && currentEventId) {
-      dispatch(editEvent({ ...event, id: currentEventId }));
+    if(validate()) {
+      const event: TEvent = {
+        ...values,
+        program: values.program.split(",").map((item) => item.trim()),
+      }
+      if (modalType === "add") {
+        dispatch(addEvent(event));
+  
+      } else if (modalType === "edit" && currentEventId) {
+        dispatch(editEvent({ ...event, id: currentEventId }));
+      }
+      if (loading) {
+        return <PreloaderUI />
+      }
+      handleClose()
+      setValues({
+        date: '',
+        time: '',
+        location: '',
+        program: '',
+        soloist: ''
+      })
+  
     }
-    if (loading) {
-      return <PreloaderUI />
-    }
-    handleClose()
-    setValues({
-      date: '',
-      time: '',
-      location: '',
-      program: '',
-      soloist: ''
-    })
   }, [values, modalType, currentEventId, dispatch, loading, setIsOpen, setValues])
 
   const handleRemove = useCallback((eventId: string) => {
     dispatch(removeEvent({ id: eventId } as TEvent));
-  },[dispatch]);
+  }, [dispatch]);
 
 
 
@@ -92,33 +136,39 @@ export const Calendar = () => {
       name: "date",
       type: "text",
       placeholder: "Date",
+      error: errors.date,
     },
     {
       name: "time",
       type: "text",
       placeholder: "Time",
+      error: errors.time,
     },
     {
       name: "location",
       type: "text",
       placeholder: "Location",
+      error: errors.location,
     },
     {
       name: "program",
       type: "text",
       placeholder: "Program",
+      error: errors.program,
     },
     {
       name: "soloist",
       type: "text",
       placeholder: "Soloist",
+      error: errors.soloist,
     },
     {
       name: "link",
       type: "text",
       placeholder: "Link",
+      error: errors.link,
     },
-  ], [])
+  ], [errors])
 
   const buttons = useMemo<ButtonUIProps[]>(() => [
     {

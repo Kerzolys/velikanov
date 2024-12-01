@@ -1,7 +1,7 @@
 import { ModalUI } from "components/ui/modal-ui/modal-ui";
 import { createPortal } from "react-dom";
 import { ModalProps } from "./type";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 
 const modalRoot = document.getElementById('modal')
 
@@ -16,6 +16,15 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, children, onClose }) => {
     }
   }
 
+  useEffect(() => {
+    const handleEscape = (evt: KeyboardEvent) => {
+      if (evt.key === 'Escape') {
+        onClose()
+      }
+    }
+    document.addEventListener('keydown', handleEscape)
+    return () => document.removeEventListener('keydown', handleEscape)
+  }, [onClose])
   return createPortal(
     <ModalUI
       modalRef={modalRef}

@@ -89,8 +89,6 @@ export const Gallery = () => {
     }
   ]
 
-
-
   return (
     <div className={styles.galleryContainer}>
       <ButtonUI type='button' buttonText="Add photo" onClick={handleAdd} />

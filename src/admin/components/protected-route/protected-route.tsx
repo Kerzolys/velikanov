@@ -8,21 +8,17 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ onlyUnAuth, comp
   const { isAuthenticated, user } = useSelector(userSelector)
   const location = useLocation()
 
-  if (!isAuthenticated) {
+  if (!isAuthenticated === undefined) {
     return <PreloaderUI />
   }
 
-  if (!isAuthenticated && location.pathname !== "/admin/signin") {
-    return <Navigate to="/admin/signin" state={{ from: location }} />;
-  }
-
-  if (!onlyUnAuth && !user) {
-    return <Navigate to="/admin/signin" />;
+  if (!isAuthenticated && location.pathname !== "/admin/") {
+    return <Navigate to="/admin/" state={{ from: location }} replace/>;
   }
 
   if (onlyUnAuth && user) {
     const from = location.state?.from?.pathname || "/admin";
-    return <Navigate to={from} />;
+    return <Navigate to={from} replace/>;
   }
 
   return <>{component}</>
