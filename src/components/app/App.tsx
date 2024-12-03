@@ -21,8 +21,6 @@ import { OnlyAuth, OnlyUnAuth } from 'admin/components/protected-route/protected
 function App() {
   const { isAuthenticated, loading } = useSelector(userSelector)
   const dispatch = useDispatch()
-  console.log(isAuthenticated)
-  console.log('loading', loading)
 
 
   useEffect(() => {

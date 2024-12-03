@@ -27,8 +27,6 @@ export const Admin = () => {
     setIsOpen(true)
     setModalType('signup')
   }
-  console.log('loading', loading)
-  console.log('auth', isAuthenticated)
 
 
   return (

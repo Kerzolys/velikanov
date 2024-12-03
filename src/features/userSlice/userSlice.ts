@@ -81,36 +81,6 @@ export const loginUser = createAsyncThunk(
   }
 );
 
-// export const initializeAuth = createAsyncThunk(
-//   "user/initialize",
-//   async (_, { dispatch }) => {
-//     try {
-//       const accessToken = getCookie("accessToken");
-//       if (accessToken) {
-//         const auth = getAuth();
-//         onAuthStateChanged(auth, (user) => {
-//           if (user) {
-//             const refreshToken = localStorage.getItem("refreshToken");
-//             dispatch(
-//               setUser({
-//                 email: user.email || "",
-//                 password: "",
-//                 accessToken: accessToken || "",
-//                 refreshToken: refreshToken || "",
-//               })
-//             );
-//             dispatch(setIsAuthenticated(!!user));
-//           } else {
-//             dispatch(setIsAuthenticated(true));
-//           }
-//         });
-//       }
-//     } catch (err) {
-//       loginFailure(err as string);
-//     }
-//   }
-// );
-
 const checkAuthState = (auth: ReturnType<typeof getAuth>): Promise<User | null> => {
   return new Promise((resolve) => {
     onAuthStateChanged(auth, (user) => {

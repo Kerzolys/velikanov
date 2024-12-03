@@ -12,15 +12,11 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ onlyUnAuth, comp
   useEffect(() => {
     dispatch(initializeAuth());
   }, [dispatch])
-  
-  console.log("Selector state:", { isAuthenticated, user, loading });
 
   if (loading) {
     return <PreloaderUI />
   }
-  // if (isAuthenticated === undefined) {
-  //   return <PreloaderUI />
-  // }
+  
 
   if (!isAuthenticated && location.pathname !== "/admin/") {
     return <Navigate to="/admin/" state={{ from: location }} replace />;
