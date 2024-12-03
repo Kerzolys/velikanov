@@ -1,24 +1,34 @@
-import { useSelector } from "services/store/store"
+import { useDispatch, useSelector } from "services/store/store"
 import { ProtectedRouteProps } from "./type"
-import { userSelector } from "features/userSlice/userSlice"
+import { initializeAuth, userSelector } from "features/userSlice/userSlice"
 import { Navigate, useLocation } from "react-router-dom"
 import { PreloaderUI } from "components/ui/preloader-ui/preloader"
+import { useEffect } from "react"
 
 export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ onlyUnAuth, component }) => {
-  const { isAuthenticated, user } = useSelector(userSelector)
+  const { isAuthenticated, user, loading } = useSelector(userSelector)
   const location = useLocation()
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(initializeAuth());
+  }, [dispatch])
+  
+  console.log("Selector state:", { isAuthenticated, user, loading });
 
-  if (!isAuthenticated === undefined) {
+  if (loading) {
     return <PreloaderUI />
   }
+  // if (isAuthenticated === undefined) {
+  //   return <PreloaderUI />
+  // }
 
   if (!isAuthenticated && location.pathname !== "/admin/") {
-    return <Navigate to="/admin/" state={{ from: location }} replace/>;
+    return <Navigate to="/admin/" state={{ from: location }} replace />;
   }
 
   if (onlyUnAuth && user) {
-    const from = location.state?.from?.pathname || "/admin";
-    return <Navigate to={from} replace/>;
+    const from = location.state?.from?.pathname || "/dashboard";
+    return <Navigate to={from} replace />;
   }
 
   return <>{component}</>

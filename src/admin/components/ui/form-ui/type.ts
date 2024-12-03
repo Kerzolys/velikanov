@@ -8,7 +8,7 @@ export type FormUIProps = {
   formHeader: string;
   formName: string;
   values: Record<string, string | string[] | number>;
-  onChange: (evt: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  onChange?: (evt: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   onClick?: () => void;
   onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
   errors?: string[]

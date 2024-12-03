@@ -12,11 +12,12 @@ import { ModalContentUI } from '../ui/modal-content-ui/modal-content-ui'
 
 import styles from './media.module.scss'
 import { PreloaderUI } from "components/ui/preloader-ui/preloader"
+import { ModalConfirmationUI } from "../ui/modal-confirmation-ui/modal-confirmation-ui"
 
 export const Media = () => {
   const { videos, loading } = useSelector(mediaSelector)
   const [isOpen, setIsOpen] = useState(false)
-  const [modalType, setModalType] = useState<"add" | "edit" | null>(null);
+  const [modalType, setModalType] = useState<"add" | "edit" | 'remove' | null>(null);
   const [currentVideoId, setCurrentVideoId] = useState<string | null>(null);
   const { values, setValues, handleChange } = useForm<TVideo>({ url: '', title: '' })
   const [error, setError] = useState<{ url: string }>({ url: '' })
@@ -74,9 +75,30 @@ export const Media = () => {
 
   }, [values, modalType, currentVideoId, dispatch, loading, setIsOpen, setValues])
 
-  const handleRemove = useCallback((video: TVideo) => {
-    dispatch(removeVideo(video))
-  }, [dispatch])
+  // const handleOpenRemoveConfirmation = () => {
+  //   // dispatch(removeVideo(video))
+  //   setModalType('remove')
+  //   handleOpen()
+  // }
+
+  const handleRemoveRequest = useCallback(
+    (videoId: string) => {
+      if (videoId) {
+        setCurrentVideoId(videoId);
+        setModalType("remove");
+        handleOpen();
+      }
+    },
+    [handleOpen]
+  );
+
+  const handleRemove = useCallback(() => {
+    if (currentVideoId) {
+      dispatch(removeVideo(videos.find(video => video.id === currentVideoId) as TVideo));
+      handleClose();
+    }
+  }, [currentVideoId, dispatch, handleClose]);
+
 
 
 
@@ -108,6 +130,19 @@ export const Media = () => {
     }
   ], [values, handleSubmit, handleClose])
 
+  const confirmationButtons = useMemo<ButtonUIProps[]>(() => [
+    {
+      buttonText: "Yes",
+      // onSubmit: () => handleRemove(videos.find(video => video.id === currentVideoId) as TVideo),
+      type: "submit" as 'submit',
+    },
+    {
+      buttonText: "No",
+      onClick: handleClose,
+      type: 'button' as 'button'
+    }
+  ], [])
+
   const memoizedValues = useMemo(() => values, [values]);
   const memoizedHandleChange = useCallback(handleChange, []);
   const memoizedHandleSubmit = useCallback(handleSubmit, [values, modalType, currentVideoId]);
@@ -119,7 +154,13 @@ export const Media = () => {
       {videos.length > 0 ? videos.map(video => {
         return <MediaVideo key={video.id} video={video}
           onEdit={() => handleEdit(video)}
-          onRemove={() => handleRemove(video)} />
+          onRemove={() => {
+            if (video.id) {
+              handleRemoveRequest(video.id);
+            } else {
+              console.error("Video ID is undefined");
+            }
+          }} />
       }) : <h2>There are no videos to edit.<br />Add some new!</h2>}
 
       {isOpen && modalType === 'add' ?
@@ -135,19 +176,28 @@ export const Media = () => {
             formName='add-video'
           />
         </Modal>
-        :
-        <Modal key={modalType} isOpen={isOpen} onClose={handleClose}>
-          <ModalContentUI
-            inputs={inputs}
-            buttons={buttons}
-            values={memoizedValues}
-            onChange={memoizedHandleChange}
-            onSubmit={memoizedHandleSubmit}
-            onClose={handleClose}
-            formHeader='Edit video'
-            formName='edit-video'
-          />
-        </Modal>
+        : modalType === 'edit' ?
+          <Modal key={modalType} isOpen={isOpen} onClose={handleClose}>
+            <ModalContentUI
+              inputs={inputs}
+              buttons={buttons}
+              values={memoizedValues}
+              onChange={memoizedHandleChange}
+              onSubmit={memoizedHandleSubmit}
+              onClose={handleClose}
+              formHeader='Edit video'
+              formName='edit-video'
+            />
+          </Modal>
+          : modalType === 'remove' &&
+          <Modal key={modalType} isOpen={isOpen} onClose={handleClose}>
+            <ModalConfirmationUI
+              buttons={confirmationButtons}
+              formHeader='Remove video. Are you sure?'
+              formName='remove-video'
+              onSubmit={handleRemove}
+            />
+          </Modal>
       }
     </div>
   )

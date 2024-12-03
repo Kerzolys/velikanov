@@ -7,14 +7,13 @@ import { useCallback, useEffect, useMemo, useState } from "react"
 import { FormUI } from "../ui/form-ui/form-ui"
 import { useForm } from "features/hooks/useForm"
 
-export const SignUp = () => {
+export const SignUp = ({ onSuccess }: { onSuccess: () => void }) => {
 
 
   const [errors, setErrors] = useState<{ email: string, password: string }>({ email: '', password: '' })
   const { values, setValues, handleChange } = useForm<{ email: string, password: string }>({ email: '', password: '' })
   const dispatch = useDispatch()
   const { error } = useSelector(userSelector)
-  console.log(error)
 
 
   const validate = () => {
@@ -47,14 +46,13 @@ export const SignUp = () => {
     if (validate()) {
       try {
         await dispatch(signUpUser({ ...values })).unwrap()
-        // setValues({ email: '', password: '' })
       } catch (err: any) {
-        console.log(err)
         setErrors({
           email: err?.message ? err.message : "",
           password: '',
         })
-        console.error(errors);
+      } finally {
+        onSuccess()
       }
     }
   }

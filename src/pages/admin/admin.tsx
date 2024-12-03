@@ -27,12 +27,23 @@ export const Admin = () => {
     setIsOpen(true)
     setModalType('signup')
   }
+  console.log('loading', loading)
+  console.log('auth', isAuthenticated)
+
 
   return (
     <div className={styles.container}>
-      {!isAuthenticated ?
-        <AdminWelcomePageUI isOpen={isOpen} setIsOpen={setIsOpen} onSignIn={handleSignIn} onSignUp={handleSignUp} modalType={modalType} setModalType={setModalType} />
-        : <AdminNavbarUI onLogout={handleLogout} isHomePage={true} />
+      {loading ? <PreloaderUI />
+        : !isAuthenticated ?
+          <AdminWelcomePageUI
+            isOpen={isOpen}
+            setIsOpen={setIsOpen}
+            onSignIn={handleSignIn}
+            onSignUp={handleSignUp}
+            modalType={modalType}
+            setModalType={setModalType}
+          />
+          : <AdminNavbarUI onLogout={handleLogout} isHomePage={true} />
       }
     </div>
   )

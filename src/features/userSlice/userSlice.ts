@@ -4,6 +4,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   onAuthStateChanged,
+  User,
 } from "firebase/auth";
 import { getCookie, setCookie } from "services/cookie";
 import { RootState } from "services/store/store";
@@ -80,32 +81,74 @@ export const loginUser = createAsyncThunk(
   }
 );
 
+// export const initializeAuth = createAsyncThunk(
+//   "user/initialize",
+//   async (_, { dispatch }) => {
+//     try {
+//       const accessToken = getCookie("accessToken");
+//       if (accessToken) {
+//         const auth = getAuth();
+//         onAuthStateChanged(auth, (user) => {
+//           if (user) {
+//             const refreshToken = localStorage.getItem("refreshToken");
+//             dispatch(
+//               setUser({
+//                 email: user.email || "",
+//                 password: "",
+//                 accessToken: accessToken || "",
+//                 refreshToken: refreshToken || "",
+//               })
+//             );
+//             dispatch(setIsAuthenticated(!!user));
+//           } else {
+//             dispatch(setIsAuthenticated(true));
+//           }
+//         });
+//       }
+//     } catch (err) {
+//       loginFailure(err as string);
+//     }
+//   }
+// );
+
+const checkAuthState = (auth: ReturnType<typeof getAuth>): Promise<User | null> => {
+  return new Promise((resolve) => {
+    onAuthStateChanged(auth, (user) => {
+      resolve(user);
+    });
+  });
+};
+
 export const initializeAuth = createAsyncThunk(
   "user/initialize",
   async (_, { dispatch }) => {
     try {
+      dispatch(setLoading(true));
       const accessToken = getCookie("accessToken");
       if (accessToken) {
         const auth = getAuth();
-        onAuthStateChanged(auth, (user) => {
-          if (user) {
-            const refreshToken = localStorage.getItem("refreshToken");
-            dispatch(
-              setUser({
-                email: user.email || "",
-                password: "",
-                accessToken: accessToken || "",
-                refreshToken: refreshToken || "",
-              })
-            );
-            dispatch(setIsAuthenticated(true));
-          } else {
-            dispatch(setIsAuthenticated(true));
-          }
-        });
+        const user = await checkAuthState(auth);
+        if (user) {
+          const refreshToken = localStorage.getItem("refreshToken");
+          dispatch(
+            setUser({
+              email: user.email || "",
+              password: "",
+              accessToken: accessToken || "",
+              refreshToken: refreshToken || "",
+            })
+          );
+          dispatch(setIsAuthenticated(true));
+        } else {
+          dispatch(setIsAuthenticated(false));
+        }
+      } else {
+        dispatch(setIsAuthenticated(false));
       }
     } catch (err) {
-      loginFailure(err as string);
+      dispatch(loginFailure(err as string));
+    } finally {
+      dispatch(setLoading(false)); // Гарантируем снятие состояния загрузки
     }
   }
 );
@@ -122,7 +165,7 @@ export const initialState: UserState = {
   user: null,
   isAuthenticated: false,
   success: false,
-  loading: false,
+  loading: true,
   error: null,
 };
 
@@ -158,6 +201,9 @@ export const userSlice = createSlice({
       localStorage.removeItem("refreshToken");
       document.cookie = "accessToken=;";
     },
+    setLoading: (state, action) => {
+      state.loading = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -188,7 +234,19 @@ export const userSlice = createSlice({
       .addCase(signUpUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || "An error occurred";
-      });
+      })
+      .addCase(initializeAuth.pending, (state) => {
+        state.loading = true; // Начало загрузки
+        console.log(state.loading)
+      })
+      .addCase(initializeAuth.fulfilled, (state) => {
+        state.loading = false; // Загрузка завершена
+        console.log(state.loading)
+      })
+      .addCase(initializeAuth.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message || "Initialization failed.";
+      })
   },
 });
 
@@ -198,6 +256,7 @@ export const {
   loginSuccess,
   loginFailure,
   logout,
+  setLoading
 } = userSlice.actions;
 
 export const userSelector = (state: RootState) => state.user;

@@ -19,15 +19,17 @@ import { fetchPhotos } from 'features/gallerySlice/gallerySlice';
 import { OnlyAuth, OnlyUnAuth } from 'admin/components/protected-route/protected-route';
 
 function App() {
-  const { isAuthenticated } = useSelector(userSelector)
+  const { isAuthenticated, loading } = useSelector(userSelector)
   const dispatch = useDispatch()
-  // console.log(isAuthenticated)
+  console.log(isAuthenticated)
+  console.log('loading', loading)
+
 
   useEffect(() => {
     if (!isAuthenticated) {
       dispatch(initializeAuth());
     }
-  }, [dispatch, isAuthenticated])
+  }, [dispatch])
   useEffect(() => {
     dispatch(fetchEvents())
     dispatch(fetchBio())
@@ -40,8 +42,8 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path='*' element={<PageNotFound />} />
         <Route path='/admin/' element={<Admin />} />
-        <Route path='/admin/signin' element={<OnlyUnAuth component={<AdminSignIn />} />} />
-        <Route path='/admin/signup' element={<AdminSignUp />} />
+        {/* <Route path='/admin/signin' element={<OnlyUnAuth component={<AdminSignIn />} />} /> */}
+        {/* <Route path='/admin/signup' element={<AdminSignUp />} /> */}
         <Route path='/admin/calendar' element={<OnlyAuth component={<AdminCalendar />} />} />
         <Route path='/admin/about' element={<OnlyAuth component={<AdminBio />} />} />
         <Route path='/admin/gallery' element={<OnlyAuth component={<AdminGallery />} />} />
